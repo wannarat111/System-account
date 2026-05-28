@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>ระบบโยกเงิน</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Boxicons -->
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    *{
+      font-family:'Prompt',sans-serif;
+    }
+
+    body{
+      background:#0f172a;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    /* ========================= */
+    /* SIDEBAR */
+    /* ========================= */
+
+    .menu-active{
+      background:linear-gradient(to right,#2563eb,#3b82f6);
+      box-shadow:0 10px 30px rgba(37,99,235,.25);
+    }
+
+    .menu-item{
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:#1e293b;
+      transform:translateX(3px);
+    }
+
+    /* ========================= */
+    /* MAIN */
+    /* ========================= */
+
+    .main-content{
+      flex:1;
+      width:100%;
+      min-width:0;
+      padding:24px;
+    }
+
+    /* ========================= */
+    /* CARD */
+    /* ========================= */
+
+    .card{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:22px;
+      box-shadow:
+      0 10px 30px rgba(0,0,0,.20);
+    }
+
+    /* ========================= */
+    /* FORM */
+    /* ========================= */
+
+    .form-box{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:22px;
+      padding:28px;
+      box-shadow:
+      0 10px 30px rgba(0,0,0,.20);
+    }
+
+    .form-group{
+      margin-bottom:22px;
+    }
+
+    .form-group label{
+      display:block;
+      margin-bottom:10px;
+      color:#cbd5e1;
+      font-size:14px;
+      font-weight:500;
+    }
+
+    .form-control{
+      width:100%;
+      background:#0f172a;
+      border:1px solid #334155;
+      border-radius:14px;
+      padding:15px;
+      outline:none;
+      color:white;
+      transition:.2s;
+    }
+
+    .form-control:focus{
+      border-color:#3b82f6;
+      box-shadow:0 0 0 3px rgba(59,130,246,.15);
+    }
+
+    /* ========================= */
+    /* BUTTON */
+    /* ========================= */
+
+    .btn-primary{
+      background:linear-gradient(to right,#2563eb,#3b82f6);
+      border:none;
+      color:white;
+      border-radius:14px;
+      padding:15px;
+      font-weight:600;
+      transition:.2s;
+      cursor:pointer;
+      width:100%;
+    }
+
+    .btn-primary:hover{
+      opacity:.9;
+      transform:translateY(-1px);
+    }
+
+    .btn-primary:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+    }
+
+    .btn-secondary{
+      background:#334155;
+      border:none;
+      color:white;
+      border-radius:14px;
+      padding:15px 18px;
+      transition:.2s;
+      cursor:pointer;
+    }
+
+    .btn-secondary:hover{
+      background:#475569;
+    }
+
+    /* ========================= */
+    /* INFO BOX */
+    /* ========================= */
+
+    .info-box{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:20px;
+      padding:20px;
+      transition:.2s;
+    }
+
+    .info-box:hover{
+      transform:translateY(-2px);
+      border-color:#475569;
+    }
+
+    .info-icon{
+      width:52px;
+      height:52px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      flex-shrink:0;
+    }
+
+    /* ========================= */
+    /* ALERT */
+    /* ========================= */
+
+    .alert{
+      padding:15px;
+      border-radius:14px;
+      margin-bottom:20px;
+      display:none;
+    }
+
+    .alert-success{
+      background:#065f46;
+      border:1px solid #10b981;
+      color:#d1fae5;
+    }
+
+    .alert-error{
+      background:#7c2d12;
+      border:1px solid #ea580c;
+      color:#fed7aa;
+    }
+
+    .alert-info{
+      background:#0c4a6e;
+      border:1px solid #0ea5e9;
+      color:#cffafe;
+    }
+
+    /* ========================= */
+    /* RESPONSIVE */
+    /* ========================= */
+
+    @media(max-width:1024px){
+
+      .main-content{
+        padding:18px;
+      }
+
+    }
+
+    @media(max-width:640px){
+
+      .form-box{
+        padding:20px;
+      }
+
+      .main-content{
+        padding:14px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- HEADER -->
+<!-- ========================= -->
+
+<header
+class="h-[70px]
+border-b border-slate-800
+flex items-center justify-between
+px-4 lg:px-6
+bg-slate-900
+sticky top-0 z-30"
+>
+
+  <!-- LEFT -->
+
+  <div class="flex items-center gap-3">
+
+    <!-- MOBILE MENU -->
+
+    <button
+      id="menuBtn"
+      class="lg:hidden
+      w-[42px]
+      h-[42px]
+      rounded-xl
+      bg-blue-600
+      flex items-center justify-center"
+    >
+
+      <i class='bx bx-menu text-2xl text-white'></i>
+
+    </button>
+
+    <!-- LOGO -->
+
+    <div class="flex items-center gap-3">
+
+      <div
+      class="w-[42px]
+      h-[42px]
+      rounded-xl
+      bg-blue-600
+      flex items-center justify-center"
+      >
+
+        <i class='bx bx-transfer text-2xl'></i>
+
+      </div>
+
+      <div class="leading-tight">
+
+        <h1 class="font-bold text-lg">
+          ระบบการโยกเงิน
+        </h1>
+
+        <p class="text-xs text-slate-400">
+          Money Transfer System
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+
+  <div class="flex items-center gap-4">
+
+    <!-- SEARCH -->
+
+    <div class="hidden lg:flex relative">
+
+      <input
+        type="text"
+        placeholder="ค้นหารายการ..."
+        class="w-[280px]
+        h-[45px]
+        bg-slate-800
+        border border-slate-700
+        rounded-xl
+        pl-11 pr-4
+        text-sm
+        outline-none
+        focus:border-blue-500"
+      >
+
+      <i
+      class='bx bx-search
+      absolute
+      left-4
+      top-1/2
+      -translate-y-1/2
+      text-slate-400'
+      ></i>
+
+    </div>
+
+    <!-- USER -->
+
+    <div class="flex items-center gap-3">
+
+      <div class="text-right hidden sm:block">
+
+        <h1 class="font-medium leading-none">
+          ADMIN
+        </h1>
+
+        <p class="text-xs text-slate-400 mt-1">
+          ผู้ดูแลระบบ
+        </p>
+
+      </div>
+
+      <img
+        src="https://i.pravatar.cc/100"
+        class="w-[45px]
+        h-[45px]
+        rounded-full
+        border-2 border-blue-500
+        object-cover"
+      >
+
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ========================= -->
+<!-- BODY -->
+<!-- ========================= -->
+
+<div class="flex relative min-h-[calc(100vh-70px)]">
+
+  <!-- BACKDROP -->
+
+  <div
+    id="sidebarBackdrop"
+    class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"
+  ></div>
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside
+    id="sidebar"
+    class="fixed lg:static
+    top-0 left-0
+    z-50 lg:z-10
+    w-[260px]
+    h-screen lg:h-auto
+    bg-slate-900
+    border-r border-slate-800
+    p-4
+    transform
+    -translate-x-full
+    lg:translate-x-0
+    transition-all
+    duration-300
+    overflow-y-auto"
+  >
+
+    <!-- MOBILE TOP -->
+
+    <div
+    class="flex items-center justify-between
+    mb-6 lg:hidden"
+    >
+
+      <h1 class="text-xl font-bold">
+        MENU
+      </h1>
+
+      <button id="closeSidebar">
+
+        <i class='bx bx-x text-3xl'></i>
+
+      </button>
+
+    </div>
+
+    <!-- MENU -->
+
+    <div class="space-y-2">
+
+      <!-- Dashboard -->
+
+      <button
+        onclick="window.location.href='dashboard.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bxs-dashboard text-xl'></i>
+
+        <span>Dashboard</span>
+
+      </button>
+
+      <!-- ACCOUNT -->
+
+      <button
+        onclick="window.location.href='account.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-wallet text-xl text-cyan-400'></i>
+
+        <span>จัดการบัญชี</span>
+
+      </button>
+
+      <!-- TRANSFER -->
+
+      <button
+        onclick="window.location.href='transfer.html'"
+        class="menu-active
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-transfer-alt text-xl text-green-400'></i>
+
+        <span>โยกเงิน</span>
+
+      </button>
+
+      <!-- TRANSACTION -->
+
+      <button
+        onclick="window.location.href='transaction.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-history text-xl text-orange-400'></i>
+
+        <span>รายการทั้งหมด</span>
+
+      </button>
+
+      <!-- MEMBER -->
+
+      <button
+        onclick="window.location.href='member.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-user text-xl text-pink-400'></i>
+
+        <span>สมาชิก</span>
+
+      </button>
+
+      <!-- SETTING -->
+
+      <button
+        onclick="window.location.href='setting.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-cog text-xl text-yellow-400'></i>
+
+        <span>ตั้งค่า</span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- ========================= -->
+  <!-- MAIN CONTENT -->
+  <!-- ========================= -->
+
+  <main class="main-content">
+
+    <!-- TITLE -->
+
+    <div class="mb-8">
+
+      <h1 class="text-3xl font-bold">
+        ระบบโยกเงิน
+      </h1>
+
+      <p class="text-slate-400 mt-2">
+        จัดการรายการโยกเงินระหว่างบัญชีแต่ละเว็บไซต์
+      </p>
+
+    </div>
+
+    <!-- ALERT -->
+    <div id="alertMessage" class="alert"></div>
+
+    <!-- GRID -->
+
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6">
+
+      <!-- LEFT -->
+
+      <form id="transferForm" class="form-box" onsubmit="saveTransfer(event)">
+
+        <!-- WEBSITE -->
+
+        <div class="form-group">
+
+          <label for="website_id">
+            เลือกเว็บไซต์
+          </label>
+
+          <select id="website_id" class="form-control" required>
+
+            <option value="">-- เลือกเว็บไซต์ --</option>
+
+          </select>
+
+        </div>
+
+        <!-- ACCOUNT GRID -->
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <!-- FROM -->
+
+          <div class="form-group">
+
+            <label for="from_bank_id">
+              บัญชีต้นทาง
+            </label>
+
+            <select class="form-control" id="from_bank_id" required>
+
+              <option value="">-- เลือกบัญชี --</option>
+
+            </select>
+
+          </div>
+
+          <!-- TO -->
+
+          <div class="form-group">
+
+            <label for="to_bank_id">
+              บัญชีปลายทาง
+            </label>
+
+            <select class="form-control" id="to_bank_id" required>
+
+              <option value="">-- เลือกบัญชี --</option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+        <!-- MONEY -->
+
+        <div class="form-group">
+
+          <label for="amount">
+            จำนวนเงิน
+          </label>
+
+          <input
+            type="number"
+            class="form-control"
+            id="amount"
+            placeholder="กรอกจำนวนเงิน"
+            step="0.01"
+            min="0"
+            required
+          >
+
+        </div>
+
+        <!-- TYPE -->
+
+        <div class="form-group">
+
+          <label for="transfer_type">
+            ประเภทรายการ
+          </label>
+
+          <select class="form-control" id="transfer_type" required>
+
+            <option value="โยกเข้าระบบ">โยกเข้าระบบ</option>
+            <option value="โยกออกระบบ">โยกออกระบบ</option>
+            <option value="โยกระหว่างบัญชี">โยกระหว่างบัญชี</option>
+
+          </select>
+
+        </div>
+<div class="form-group">
+
+  <label for="transfer_status">
+    สถานะรายการ
+  </label>
+
+  <select class="form-control" id="transfer_status">
+
+    <option value="สำเร็จ">สำเร็จ</option>
+    <option value="รอดำเนินการ">รอดำเนินการ</option>
+    <option value="ยกเลิก">ยกเลิก</option>
+
+  </select>
+
+</div>
+            <div class="form-group">
+
+  <label>
+    ผู้ทำรายการ
+  </label>
+
+  <select
+    id="user_id" class="form-control"
+  >
+    <option value="">
+      -- เลือกผู้ทำรายการ --
+    </option>
+  </select>
+
+</div>
+        <!-- NOTE -->
+
+        <div class="form-group">
+
+          <label for="note">
+            หมายเหตุเพิ่มเติม
+          </label>
+
+          <textarea
+            class="form-control min-h-[120px]"
+            id="note"
+            placeholder="รายละเอียดเพิ่มเติม..."
+          ></textarea>
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <div class="flex flex-col sm:flex-row gap-4">
+
+          <button type="submit" class="btn-primary flex-1" id="submitBtn">
+
+            <i class='bx bx-check-circle mr-1'></i>
+
+            ยืนยันรายการ
+
+          </button>
+
+          <button type="reset" class="btn-secondary sm:w-[60px]">
+
+            <i class='bx bx-reset'></i>
+
+          </button>
+
+        </div>
+
+      </form>
+
+      <!-- RIGHT -->
+
+      <div class="space-y-5">
+
+        <!-- INFO -->
+
+        <div class="info-box">
+
+          <div class="flex items-center gap-4">
+
+            <div class="info-icon bg-blue-500/20 text-blue-400">
+
+              <i class='bx bx-globe'></i>
+
+            </div>
+
+            <div>
+
+              <h1 class="font-semibold">
+                เว็บไซต์ที่เลือก
+              </h1>
+
+              <p class="text-slate-400 text-sm mt-1">
+                ระบบจะแยกรายการตามเว็บไซต์อัตโนมัติ
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="info-box">
+
+          <div class="flex items-center gap-4">
+
+            <div class="info-icon bg-green-500/20 text-green-400">
+
+              <i class='bx bx-transfer'></i>
+
+            </div>
+
+            <div>
+
+              <h1 class="font-semibold">
+                ระบบโยกเงิน
+              </h1>
+
+              <p class="text-slate-400 text-sm mt-1">
+                รองรับการโยกระหว่างหลายบัญชี
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="info-box">
+
+          <div class="flex items-center gap-4">
+
+            <div class="info-icon bg-orange-500/20 text-orange-400">
+
+              <i class='bx bx-history'></i>
+
+            </div>
+
+            <div>
+
+              <h1 class="font-semibold">
+                ประวัติรายการ
+              </h1>
+
+              <p class="text-slate-400 text-sm mt-1">
+                ตรวจสอบย้อนหลังได้ทุกธุรกรรม
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<!-- ========================= -->
+<!-- SCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+// ========================= 
+// DOM ELEMENTS
+// ========================= 
+
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const backdrop = document.getElementById("sidebarBackdrop");
+const closeSidebar = document.getElementById("closeSidebar");
+const transferForm = document.getElementById("transferForm");
+const submitBtn = document.getElementById("submitBtn");
+const alertMessage = document.getElementById("alertMessage");
+
+// ========================= 
+// SIDEBAR FUNCTIONS
+// ========================= 
+
+menuBtn.addEventListener("click", () => {
+  sidebar.classList.remove("-translate-x-full");
+  backdrop.classList.remove("hidden");
+});
+
+function closeMenu() {
+  sidebar.classList.add("-translate-x-full");
+  backdrop.classList.add("hidden");
+}
+
+closeSidebar.addEventListener("click", closeMenu);
+backdrop.addEventListener("click", closeMenu);
+
+// ========================= 
+// ALERT FUNCTIONS
+// ========================= 
+
+function showAlert(message, type = 'info') {
+  alertMessage.textContent = message;
+  alertMessage.className = `alert alert-${type}`;
+  alertMessage.style.display = 'block';
+  
+  setTimeout(() => {
+    alertMessage.style.display = 'none';
+  }, 5000);
+}
+
+function hideAlert() {
+  alertMessage.style.display = 'none';
+}
+
+/* =========================================================
+   API URL
+========================================================= */
+
+const API_URL =
+"http://localhost/basic/work/public/transfers.php";
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+let editTransferId = null;
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+function showAlert(
+    icon,
+    title,
+    text
+){
+
+    Swal.fire({
+
+        icon,
+        title,
+        text,
+
+        background:"#1e293b",
+        color:"#fff",
+
+        confirmButtonColor:
+        icon === "success"
+        ? "#2563eb"
+        : "#ef4444"
+
+    });
+
+}
+
+/* =========================================================
+   LOAD WEBSITE
+========================================================= */
+
+async function loadWebsites(){
+
+    try{
+
+        const response =
+        await fetch(
+            "http://localhost/basic/work/public/websites.php"
+        );
+
+        if(!response.ok){
+
+            throw new Error(
+                "โหลดเว็บไซต์ไม่สำเร็จ"
+            );
+
+        }
+
+        const result =
+        await response.json();
+
+        let html =
+        `<option value="">-- เลือกเว็บไซต์ --</option>`;
+
+        if(result.success){
+
+            result.data.forEach(row => {
+
+                html += `
+                <option value="${row.website_id}">
+                    ${row.website_name}
+                </option>
+                `;
+
+            });
+
+        }
+
+        document.getElementById(
+            "website_id"
+        ).innerHTML = html;
+
+    }catch(error){
+
+        console.log(error);
+
+        showAlert(
+            "error",
+            "ผิดพลาด",
+            "โหลดเว็บไซต์ไม่สำเร็จ"
+        );
+
+    }
+
+}
+
+/* =========================================================
+   LOAD BANKS
+========================================================= */
+
+async function loadBanks(){
+
+    try{
+
+        const response =
+        await fetch(
+        "http://localhost/basic/work/public/bank_accounts.php"
+        );
+
+        const result =
+        await response.json();
+
+        let html =
+        `
+        <option value="">
+            -- เลือกบัญชี --
+        </option>
+        `;
+
+        if(result.success){
+
+            result.data.forEach(bank => {
+
+                html += `
+                <option value="${bank.bank_id}">
+                    ${bank.bank_name}
+                    -
+                    ${bank.bank_number}
+                </option>
+                `;
+
+            });
+
+        }
+
+        document.getElementById("from_bank_id").innerHTML =
+        html;
+
+        document.getElementById("to_bank_id").innerHTML =
+        html;
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadBanks();
+
+/* =========================================================
+   LOAD USERS
+========================================================= */
+
+async function loadUsers() {
+
+  try {
+
+    const response =
+    await fetch(
+      "http://localhost/basic/work/public/users.php"
+    );
+
+    if (!response.ok) {
+
+      throw new Error(
+        "โหลดผู้ใช้ไม่สำเร็จ"
+      );
+
+    }
+
+    const result =
+    await response.json();
+
+    console.log(result);
+
+    let html = `
+      <option value="">
+        -- เลือกผู้ทำรายการ --
+      </option>
+    `;
+
+    if (
+      result.success &&
+      result.data.length > 0
+    ) {
+
+      result.data.forEach(user => {
+
+        html += `
+          <option value="${user.user_id}">
+            ${user.full_name}
+          </option>
+        `;
+
+      });
+
+    }
+
+    document.getElementById("user_id")
+    .innerHTML = html;
+
+  } catch (error) {
+
+    console.log(error);
+
+    showNotification(
+      "error",
+      "ผิดพลาด",
+      "โหลดข้อมูลผู้ใช้ไม่สำเร็จ"
+    );
+
+  }
+
+}
+
+/* =========================================================
+   NOTIFICATION SYSTEM
+========================================================= */
+
+// Create notification container if it doesn't exist
+function initNotifications() {
+  if (!document.getElementById('notificationContainer')) {
+    const container = document.createElement('div');
+    container.id = 'notificationContainer';
+    container.style.cssText = `
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 1000;
+      max-width: 400px;
+    `;
+    document.body.appendChild(container);
+  }
+}
+
+// Show notification
+function showNotification(type, title, message, duration = 5000) {
+  initNotifications();
+
+  const container = document.getElementById('notificationContainer');
+  
+  // Color scheme based on type
+  const colors = {
+    success: {
+      bg: '#065f46',
+      border: '#10b981',
+      icon: 'bx-check-circle',
+      color: '#d1fae5'
+    },
+    error: {
+      bg: '#7c2d12',
+      border: '#ea580c',
+      icon: 'bx-x-circle',
+      color: '#fed7aa'
+    },
+    warning: {
+      bg: '#78350f',
+      border: '#f59e0b',
+      icon: 'bx-exclamation-circle',
+      color: '#fef3c7'
+    },
+    info: {
+      bg: '#0c4a6e',
+      border: '#0ea5e9',
+      icon: 'bx-info-circle',
+      color: '#cffafe'
+    }
+  };
+
+  const config = colors[type] || colors.info;
+
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.style.cssText = `
+    background: ${config.bg};
+    border: 1px solid ${config.border};
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideInRight 0.3s ease-out;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    color: ${config.color};
+  `;
+
+  // Icon
+  const icon = document.createElement('i');
+  icon.className = `bx ${config.icon}`;
+  icon.style.cssText = `
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  `;
+
+  // Content
+  const content = document.createElement('div');
+  content.style.cssText = `
+    flex: 1;
+    min-width: 0;
+  `;
+
+  const titleEl = document.createElement('h3');
+  titleEl.textContent = title;
+  titleEl.style.cssText = `
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+  `;
+
+  const messageEl = document.createElement('p');
+  messageEl.textContent = message;
+  messageEl.style.cssText = `
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+  `;
+
+  content.appendChild(titleEl);
+  content.appendChild(messageEl);
+
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '<i class="bx bx-x"></i>';
+  closeBtn.style.cssText = `
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  `;
+
+  closeBtn.onmouseover = () => closeBtn.style.opacity = '1';
+  closeBtn.onmouseout = () => closeBtn.style.opacity = '0.7';
+
+  closeBtn.onclick = () => {
+    notification.style.animation = 'slideOutRight 0.3s ease-out';
+    setTimeout(() => notification.remove(), 300);
+  };
+
+  notification.appendChild(icon);
+  notification.appendChild(content);
+  notification.appendChild(closeBtn);
+
+  container.appendChild(notification);
+
+  // Auto remove after duration
+  if (duration > 0) {
+    setTimeout(() => {
+      if (notification.parentElement) {
+        notification.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => notification.remove(), 300);
+      }
+    }, duration);
+  }
+}
+
+// Alias for backward compatibility
+function showAlert(type, title, message) {
+  showNotification(type, title, message);
+}
+
+/* =========================================================
+   ADD ANIMATIONS TO STYLESHEET
+========================================================= */
+
+// Add CSS animations
+function addNotificationStyles() {
+  if (!document.getElementById('notificationStyles')) {
+    const style = document.createElement('style');
+    style.id = 'notificationStyles';
+    style.textContent = `
+      @keyframes slideInRight {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+      }
+
+      .notification {
+        word-break: break-word;
+      }
+
+      @media (max-width: 768px) {
+        #notificationContainer {
+          right: 10px !important;
+          left: 10px !important;
+          max-width: none !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  addNotificationStyles();
+});
+/* =========================================================
+   SAVE TRANSFER (UPDATED)
+========================================================= */
+
+async function saveTransfer(event) {
+
+  event.preventDefault();
+
+  try {
+
+    const saveBtn =
+    document.getElementById("submitBtn");
+
+    saveBtn.disabled = true;
+
+    saveBtn.innerHTML =
+    '<i class="bx bx-loader-circle bx-spin mr-2"></i>กำลังบันทึก...';
+
+    if (!validateTransferForm()) {
+
+      saveBtn.disabled = false;
+
+      saveBtn.innerHTML =
+      '<i class="bx bx-check-circle mr-2"></i>ยืนยันรายการ';
+
+      return;
+
+    }
+
+    const formData = {
+
+      website_id:
+      document.getElementById("website_id").value,
+
+      from_bank_id:
+      document.getElementById("from_bank_id").value,
+
+      to_bank_id:
+      document.getElementById("to_bank_id").value,
+
+      amount:
+      document.getElementById("amount").value,
+
+      transfer_type:
+      document.getElementById("transfer_type").value,
+
+      transfer_status:
+      document.getElementById("transfer_status").value,
+
+      user_id:
+      document.getElementById("user_id").value,
+
+      note:
+      document.getElementById("note").value
+
+    };
+
+    const response =
+    await fetch(API_URL, {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify(formData)
+
+    });
+
+    const text =
+    await response.text();
+
+    console.log(text);
+
+    let result;
+
+    try {
+
+      result = JSON.parse(text);
+
+    } catch {
+
+      throw new Error(
+        "API ส่งข้อมูลไม่ถูกต้อง"
+      );
+
+    }
+
+    if (result.success) {
+
+      showNotification(
+        "success",
+        "สำเร็จ",
+        result.message
+      );
+
+      transferForm.reset();
+
+    } else {
+
+      showNotification(
+        "error",
+        "ผิดพลาด",
+        result.message
+      );
+
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+    showNotification(
+      "error",
+      "เกิดข้อผิดพลาด",
+      error.message
+    );
+
+  } finally {
+
+    const saveBtn =
+    document.getElementById("submitBtn");
+
+    saveBtn.disabled = false;
+
+    saveBtn.innerHTML =
+    '<i class="bx bx-check-circle mr-2"></i>ยืนยันรายการ';
+
+  }
+
+}
+/* ========================= */
+/* VALIDATE TRANSFER FORM */
+/* ========================= */
+
+function validateTransferForm() {
+  const websiteId = document.getElementById("website_id").value;
+  const fromBankId = document.getElementById("from_bank_id").value;
+  const toBankId = document.getElementById("to_bank_id").value;
+  const amount = parseFloat(document.getElementById("amount").value);
+  const transferType = document.getElementById("transfer_type").value;
+
+  if (!websiteId) {
+    showNotification("warning", "⚠ ขาดข้อมูล", "กรุณาเลือกเว็บไซต์");
+    return false;
+  }
+
+  if (!fromBankId) {
+    showNotification("warning", "⚠ ขาดข้อมูล", "กรุณาเลือกบัญชีต้นทาง");
+    return false;
+  }
+
+  if (!toBankId) {
+    showNotification("warning", "⚠ ขาดข้อมูล", "กรุณาเลือกบัญชีปลายทาง");
+    return false;
+  }
+
+  if (!amount || amount <= 0) {
+    showNotification("warning", "⚠ ขาดข้อมูล", "กรุณากรอกจำนวนเงินที่ถูกต้อง");
+    return false;
+  }
+
+ if (
+  fromBankId === toBankId &&
+  transferType === "โยกระหว่างบัญชี"
+)
+
+  if (!transferType) {
+    showNotification("warning", "⚠ ขาดข้อมูล", "กรุณาเลือกประเภทรายการ");
+    return false;
+  }
+
+  return true;
+}
+/* =========================================================
+   DELETE
+========================================================= */
+
+async function deleteTransfer(id){
+
+    const confirmDelete =
+    await Swal.fire({
+
+        title:"ยืนยันการลบ ?",
+
+        text:"คุณต้องการลบข้อมูลนี้",
+
+        icon:"warning",
+
+        showCancelButton:true,
+
+        confirmButtonColor:"#ef4444",
+
+        cancelButtonColor:"#64748b",
+
+        confirmButtonText:"ลบข้อมูล",
+
+        cancelButtonText:"ยกเลิก",
+
+        background:"#1e293b",
+
+        color:"#fff"
+
+    });
+
+    if(!confirmDelete.isConfirmed){
+
+        return;
+
+    }
+
+    try{
+
+        const response =
+        await fetch(API_URL,{
+
+            method:"DELETE",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                transfer_id:id
+
+            })
+
+        });
+
+        const result =
+        await response.json();
+
+        if(result.success){
+
+            showAlert(
+                "success",
+                "สำเร็จ",
+                result.message
+            );
+
+            loadTransfers();
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+/* =========================================================
+   UPDATE STATUS
+========================================================= */
+
+async function updateStatus(
+    transfer_id,
+    transfer_status
+){
+
+    try{
+
+        const response =
+        await fetch(API_URL,{
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                transfer_id,
+                transfer_status
+
+            })
+
+        });
+
+        const result =
+        await response.json();
+
+        if(result.success){
+
+            showAlert(
+                "success",
+                "สำเร็จ",
+                "อัปเดตสถานะแล้ว"
+            );
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetForm(){
+
+    document.getElementById(
+        "website_id"
+    ).value = "";
+
+    document.getElementById(
+        "from_bank_id"
+    ).value = "";
+
+    document.getElementById(
+        "to_bank_id"
+    ).value = "";
+
+    document.getElementById(
+        "amount"
+    ).value = "";
+
+    document.getElementById(
+        "transfer_type"
+    ).value = "โยกเข้าระบบ";
+
+    document.getElementById(
+        "transfer_status"
+    ).value = "สำเร็จ";
+
+    document.getElementById(
+        "user_id"
+    ).value = "";
+
+    document.getElementById(
+        "note"
+    ).value = "";
+
+}
+
+/* =========================================================
+   START
+========================================================= */
+
+loadWebsites();
+
+loadBanks();
+
+loadUsers();
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>เข้าสู่ระบบ</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Boxicons -->
+<link
+href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+rel="stylesheet"
+/>
+
+<!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
+rel="stylesheet"
+/>
+
+<style>
+
+*{
+    font-family:'Prompt',sans-serif;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#1e3a8a 0%,#0f172a 40%);
+    overflow:hidden;
+}
+
+/* Glass Effect */
+
+.login-box{
+
+    background:rgba(30,41,59,.85);
+
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+    0 0 40px rgba(0,0,0,.35);
+
+}
+
+/* Input */
+
+.input-box{
+
+    position:relative;
+
+}
+
+.input-box i{
+
+    position:absolute;
+
+    left:16px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#64748b;
+
+    font-size:20px;
+
+}
+
+.form-control{
+
+    width:100%;
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    border-radius:14px;
+
+    padding:15px 15px 15px 48px;
+
+    color:white;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+.form-control:focus{
+
+    border-color:#3b82f6;
+
+    box-shadow:
+    0 0 0 4px rgba(59,130,246,.15);
+
+}
+
+/* Button */
+
+.login-btn{
+
+    background:linear-gradient(
+    to right,
+    #2563eb,
+    #3b82f6
+    );
+
+    transition:.3s;
+
+}
+
+.login-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 10px 20px rgba(37,99,235,.25);
+
+}
+
+/* Animation */
+
+.fade-in{
+
+    animation:fade .5s ease;
+
+}
+
+@keyframes fade{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+</style>
+
+</head>
+
+<body class="flex items-center justify-center min-h-screen px-4">
+
+<!-- LOGIN BOX -->
+
+<div class="login-box w-full max-w-[430px] p-8 rounded-3xl fade-in">
+
+    <!-- LOGO -->
+
+    <div class="text-center mb-8">
+
+        <div class="w-[85px] h-[85px]
+        rounded-3xl bg-blue-600
+        flex items-center justify-center
+        mx-auto mb-5 shadow-lg">
+
+            <i class='bx bx-transfer text-5xl text-white'></i>
+
+        </div>
+
+        <h1 class="text-4xl font-bold text-white">
+            เข้าสู่ระบบ
+        </h1>
+
+        <p class="text-slate-400 mt-2 text-sm">
+            Money Transfer Management System
+        </p>
+
+    </div>
+
+    <!-- FORM -->
+
+    <div class="space-y-5">
+
+        <!-- USERNAME -->
+
+        <div>
+
+            <label class="text-slate-300 text-sm mb-2 block">
+                Username
+            </label>
+
+            <div class="input-box">
+
+                <i class='bx bx-user'></i>
+
+                <input
+                    type="text"
+                    id="username"
+                    class="form-control"
+                    placeholder="กรอก Username"
+                >
+
+            </div>
+
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div>
+
+            <label class="text-slate-300 text-sm mb-2 block">
+                Password
+            </label>
+
+            <div class="input-box">
+
+                <i class='bx bx-lock-alt'></i>
+
+                <input
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    placeholder="กรอก Password"
+                >
+
+            </div>
+
+        </div>
+
+        <!-- REMEMBER -->
+
+        <div class="flex items-center justify-between text-sm">
+
+            <label class="flex items-center gap-2 text-slate-400">
+
+                <input type="checkbox">
+
+                จำการเข้าสู่ระบบ
+
+           
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <button
+            onclick="login()"
+            class="login-btn w-full p-4 rounded-2xl text-white font-semibold text-lg"
+        >
+
+            <i class='bx bx-log-in-circle mr-1'></i>
+
+            เข้าสู่ระบบ
+
+        </button>
+
+    </div>
+
+    <!-- MESSAGE -->
+
+    <p
+        id="message"
+        class="text-center text-red-400 mt-5 text-sm"
+    ></p>
+
+    <!-- FOOTER -->
+
+    <div class="text-center mt-8 text-slate-500 text-sm">
+
+        © 2026 Money Transfer System By AGTECH
+
+    </div>
+
+</div>
+
+<!-- LOGIN SCRIPT -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+const API_URL =
+"http://localhost/basic/work/public/login.php";
+
+async function login(){
+
+    const username =
+    document.getElementById("username").value.trim();
+
+    const password =
+    document.getElementById("password").value.trim();
+
+    /* ========================= */
+    /* VALIDATE */
+    /* ========================= */
+
+    if(!username || !password){
+
+        Swal.fire({
+
+            icon: "warning",
+
+            title: "กรอกข้อมูลไม่ครบ",
+
+            text: "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน",
+
+            background: "#0f172a",
+
+            color: "#fff",
+
+            confirmButtonColor: "#2563eb",
+
+            customClass:{
+
+                popup:"rounded-2xl border border-slate-700 shadow-2xl",
+                confirmButton:"rounded-xl px-6"
+
+            }
+
+        });
+
+        return;
+
+    }
+
+    /* ========================= */
+    /* LOADING */
+    /* ========================= */
+
+    Swal.fire({
+
+        title: "กำลังเข้าสู่ระบบ...",
+
+        text: "กรุณารอสักครู่",
+
+        allowOutsideClick:false,
+
+        background:"#0f172a",
+
+        color:"#fff",
+
+        didOpen:()=>{
+
+            Swal.showLoading();
+
+        }
+
+    });
+
+    try{
+
+        const response =
+        await fetch(API_URL,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                username,
+                password
+
+            })
+
+        });
+
+        const result =
+        await response.json();
+
+        console.log(result);
+
+        /* ========================= */
+        /* LOGIN SUCCESS */
+        /* ========================= */
+
+        if(result.success){
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(result.user)
+            );
+
+            await Swal.fire({
+
+                icon: "success",
+
+                title: "เข้าสู่ระบบสำเร็จ",
+
+                html: `
+                    <div class="text-slate-300">
+                        ยินดีต้อนรับกลับ<br>
+                        <b>${result.user.full_name}</b>
+                    </div>
+                `,
+
+                background: "#0f172a",
+
+                color: "#fff",
+
+                confirmButtonColor: "#2563eb",
+
+                timer: 1800,
+
+                showConfirmButton: false,
+
+                customClass:{
+
+                    popup:"rounded-2xl border border-slate-700 shadow-2xl"
+
+                }
+
+            });
+
+            window.location.href =
+            "dashboard.html";
+
+        }else{
+
+            /* ========================= */
+            /* LOGIN FAIL */
+            /* ========================= */
+
+            Swal.fire({
+
+                icon: "error",
+
+                title: "เข้าสู่ระบบไม่สำเร็จ",
+
+                text: result.message ||
+
+                "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+
+                background: "#0f172a",
+
+                color: "#fff",
+
+                confirmButtonColor: "#ef4444",
+
+                customClass:{
+
+                    popup:"rounded-2xl border border-red-500/30 shadow-2xl",
+                    confirmButton:"rounded-xl px-6"
+
+                }
+
+            });
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+        /* ========================= */
+        /* SERVER ERROR */
+        /* ========================= */
+
+        Swal.fire({
+
+            icon: "error",
+
+            title: "เกิดข้อผิดพลาด",
+
+            html: `
+                <div class="text-slate-300">
+                    ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้
+                    <br>
+                    กรุณาติดต่อผู้ดูแลระบบ
+                </div>
+            `,
+
+            background: "#0f172a",
+
+            color: "#fff",
+
+            confirmButtonColor: "#ef4444",
+
+            customClass:{
+
+                popup:"rounded-2xl border border-red-500/30 shadow-2xl"
+
+            }
+
+        });
+
+    }
+
+}
+
+</script>
+</body>
+</html>

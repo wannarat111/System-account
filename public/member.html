@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>สมาชิก | Money Transfer System</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Boxicons -->
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    *{
+      font-family:'Prompt',sans-serif;
+    }
+
+    body{
+      background:#0f172a;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    /* ========================= */
+    /* MENU */
+    /* ========================= */
+
+    .menu-item{
+      transition:.25s;
+    }
+
+    .menu-item:hover{
+      background:#1e40af;
+    }
+
+    .menu-active{
+      background:linear-gradient(to right,#2563eb,#3b82f6);
+    }
+
+    /* ========================= */
+    /* CARD */
+    /* ========================= */
+
+    .card{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:20px;
+    }
+
+    /* ========================= */
+    /* TABLE */
+    /* ========================= */
+
+    .table-box{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:20px;
+      overflow:hidden;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:900px;
+    }
+
+    table thead{
+      background:#111827;
+    }
+
+    table th{
+      padding:18px;
+      text-align:left;
+      color:#94a3b8;
+      font-weight:500;
+      white-space:nowrap;
+    }
+
+    table td{
+      padding:18px;
+      border-top:1px solid #334155;
+      white-space:nowrap;
+    }
+
+    tbody tr:hover{
+      background:#0f172a;
+    }
+
+    /* ========================= */
+    /* STATUS */
+    /* ========================= */
+
+    .status-success{
+      background:#14532d;
+      color:#4ade80;
+      padding:6px 14px;
+      border-radius:30px;
+      font-size:13px;
+    }
+
+    .status-warning{
+      background:#78350f;
+      color:#facc15;
+      padding:6px 14px;
+      border-radius:30px;
+      font-size:13px;
+    }
+
+    /* ========================= */
+    /* BUTTON */
+    /* ========================= */
+
+    .btn{
+      background:#2563eb;
+      color:white;
+      border:none;
+      padding:12px 20px;
+      border-radius:14px;
+      transition:.3s;
+      cursor:pointer;
+      font-weight:500;
+    }
+
+    .btn:hover{
+      background:#1d4ed8;
+    }
+
+    .btn-warning{
+      background:#f59e0b;
+    }
+
+    .btn-warning:hover{
+      background:#d97706;
+    }
+
+    .btn-danger{
+      background:#ef4444;
+    }
+
+    .btn-danger:hover{
+      background:#dc2626;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- HEADER -->
+<!-- ========================= -->
+
+<header
+class="h-[70px]
+border-b border-slate-800
+flex items-center justify-between
+px-4 lg:px-6
+bg-slate-900
+sticky top-0 z-30"
+>
+
+  <!-- LEFT -->
+
+  <div class="flex items-center gap-3">
+
+    <!-- MOBILE MENU -->
+
+    <button
+      id="menuBtn"
+      class="lg:hidden
+      w-[42px]
+      h-[42px]
+      rounded-xl
+      bg-blue-600
+      flex items-center justify-center"
+    >
+
+      <i class='bx bx-menu text-2xl text-white'></i>
+
+    </button>
+
+    <!-- LOGO -->
+
+    <div class="flex items-center gap-3">
+
+      <div
+      class="w-[42px]
+      h-[42px]
+      rounded-xl
+      bg-blue-600
+      flex items-center justify-center"
+      >
+
+        <i class='bx bx-transfer text-2xl'></i>
+
+      </div>
+
+      <div class="leading-tight">
+
+        <h1 class="font-bold text-lg">
+          ระบบการโยกเงิน
+        </h1>
+
+        <p class="text-xs text-slate-400">
+          Money Transfer System
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+
+  <div class="flex items-center gap-4">
+
+    <!-- SEARCH -->
+
+    <div class="hidden lg:flex relative">
+
+      <input
+        type="text"
+        placeholder="ค้นหารายการ..."
+        class="w-[280px]
+        h-[45px]
+        bg-slate-800
+        border border-slate-700
+        rounded-xl
+        pl-11 pr-4
+        text-sm
+        outline-none
+        focus:border-blue-500"
+      >
+
+      <i
+      class='bx bx-search
+      absolute
+      left-4
+      top-1/2
+      -translate-y-1/2
+      text-slate-400'
+      ></i>
+
+    </div>
+
+    <!-- USER -->
+
+    <div class="flex items-center gap-3">
+
+      <div class="text-right hidden sm:block">
+
+        <h1 class="font-medium leading-none">
+          ADMIN
+        </h1>
+
+        <p class="text-xs text-slate-400 mt-1">
+          ผู้ดูแลระบบ
+        </p>
+
+      </div>
+
+      <img
+        src="https://i.pravatar.cc/100"
+        class="w-[45px]
+        h-[45px]
+        rounded-full
+        border-2 border-blue-500
+        object-cover"
+      >
+
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ========================= -->
+<!-- BODY -->
+<!-- ========================= -->
+
+<div class="flex relative min-h-screen">
+
+  <!-- BACKDROP -->
+
+  <div
+    id="sidebarBackdrop"
+    class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"
+  ></div>
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside
+    id="sidebar"
+    class="fixed lg:static
+    top-0 left-0
+    z-50 lg:z-10
+    w-[260px]
+    h-screen lg:h-auto
+    bg-slate-900
+    border-r border-slate-800
+    p-4
+    transform
+    -translate-x-full
+    lg:translate-x-0
+    transition-all
+    duration-300
+    overflow-y-auto"
+  >
+
+    <!-- MOBILE TOP -->
+
+    <div
+    class="flex items-center justify-between
+    mb-6 lg:hidden"
+    >
+
+      <h1 class="text-xl font-bold">
+        MENU
+      </h1>
+
+      <button id="closeSidebar">
+
+        <i class='bx bx-x text-3xl'></i>
+
+      </button>
+
+    </div>
+
+    <!-- MENU -->
+
+    <div class="space-y-2">
+
+      <button
+        onclick="window.location.href='dashboard.html'"
+        class="menu-item w-full h-[52px] flex items-center gap-3 px-4 rounded-xl transition"
+      >
+
+        <i class='bx bxs-dashboard text-xl'></i>
+
+        <span>Dashboard</span>
+
+      </button>
+
+      <button
+        onclick="window.location.href='account.html'"
+        class="menu-item w-full h-[52px] flex items-center gap-3 px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-wallet text-xl text-cyan-400'></i>
+
+        <span>จัดการบัญชี</span>
+
+      </button>
+
+      <button
+        onclick="window.location.href='transfer.html'"
+        class="menu-item w-full h-[52px] flex items-center gap-3 px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-transfer-alt text-xl text-green-400'></i>
+
+        <span>โยกเงิน</span>
+
+      </button>
+
+      <button
+        onclick="window.location.href='transaction.html'"
+        class="menu-item w-full h-[52px] flex items-center gap-3 px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-history text-xl text-orange-400'></i>
+
+        <span>รายการทั้งหมด</span>
+
+      </button>
+
+      <button
+        onclick="window.location.href='member.html'"
+        class="menu-active w-full h-[52px] flex items-center gap-3 px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-user text-xl text-pink-400'></i>
+
+        <span>สมาชิก</span>
+
+      </button>
+
+      <button
+        onclick="window.location.href='setting.html'"
+        class="menu-item w-full h-[52px] flex items-center gap-3 px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-cog text-xl text-yellow-400'></i>
+
+        <span>ตั้งค่า</span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+ <!-- ======================================== -->
+<!-- MEMBER MANAGEMENT -->
+<!-- ======================================== -->
+
+<main class="flex-1 p-4 lg:p-8 overflow-hidden">
+
+  <!-- TOP -->
+
+  <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+
+    <div>
+
+      <h1 class="text-3xl font-bold">
+        จัดการสมาชิก
+      </h1>
+
+      <p class="text-slate-400 mt-2">
+        เพิ่ม แก้ไข ลบ และค้นหาข้อมูลสมาชิก
+      </p>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="flex items-center gap-3">
+
+      <!-- SEARCH -->
+
+      <div class="relative">
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="ค้นหาสมาชิก..."
+          class="w-[250px]
+          h-[50px]
+          bg-slate-900
+          border border-slate-700
+          rounded-xl
+          pl-11 pr-4
+          outline-none
+          focus:border-blue-500"
+        >
+
+        <i class='bx bx-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400'></i>
+
+      </div>
+
+      <!-- ADD -->
+
+      <button
+        onclick="openModal()"
+        class="h-[50px]
+        px-5
+        rounded-xl
+        bg-blue-600
+        hover:bg-blue-700
+        transition
+        font-medium"
+      >
+
+        <i class='bx bx-plus mr-1'></i>
+
+        เพิ่มสมาชิก
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+
+    <div class="overflow-x-auto">
+
+      <table class="w-full min-w-[900px]">
+
+        <thead class="bg-slate-950">
+
+          <tr class="text-left">
+
+            <th class="p-4 text-slate-400 font-medium">
+              Username
+            </th>
+
+            <th class="p-4 text-slate-400 font-medium">
+              Full Name
+            </th>
+
+            <th class="p-4 text-slate-400 font-medium">
+              Role
+            </th>
+
+            <th class="p-4 text-slate-400 font-medium">
+              Status
+            </th>
+
+            <th class="p-4 text-slate-400 font-medium">
+              Created
+            </th>
+
+            <th class="p-4 text-slate-400 font-medium text-center">
+              Manage
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="memberTable">
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</main>
+
+<!-- ======================================== -->
+<!-- MODAL -->
+<!-- ======================================== -->
+
+<div
+
+id="memberModal"
+class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4"
+
+>
+
+  <div class="w-full max-w-[550px] bg-slate-900 border border-slate-700 rounded-2xl p-6">
+
+    <!-- TOP -->
+
+    <div class="flex items-center justify-between mb-6">
+
+      <div>
+
+        <h1 class="text-2xl font-bold">
+          เพิ่มสมาชิก
+        </h1>
+
+        <p class="text-slate-400 text-sm mt-1">
+          จัดการข้อมูลสมาชิกภายในระบบ
+        </p>
+
+      </div>
+
+      <button
+        onclick="closeModal()"
+        class="w-[40px]
+        h-[40px]
+        rounded-xl
+        bg-slate-800
+        hover:bg-slate-700
+        transition"
+      >
+
+        <i class='bx bx-x text-2xl'></i>
+
+      </button>
+
+    </div>
+
+    <!-- FORM -->
+
+    <input type="hidden" id="user_id">
+
+    <!-- USERNAME -->
+
+    <div class="mb-5">
+
+      <label class="block mb-2 text-sm text-slate-300">
+        Username
+      </label>
+
+      <input
+        type="text"
+        id="username"
+        class="w-full
+        h-[50px]
+        bg-slate-950
+        border border-slate-700
+        rounded-xl
+        px-4
+        outline-none
+        focus:border-blue-500"
+      >
+
+    </div>
+
+    <!-- PASSWORD -->
+
+    <div class="mb-5">
+
+      <label class="block mb-2 text-sm text-slate-300">
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        class="w-full
+        h-[50px]
+        bg-slate-950
+        border border-slate-700
+        rounded-xl
+        px-4
+        outline-none
+        focus:border-blue-500"
+      >
+
+    </div>
+
+    <!-- FULLNAME -->
+
+    <div class="mb-5">
+
+      <label class="block mb-2 text-sm text-slate-300">
+        Full Name
+      </label>
+
+      <input
+        type="text"
+        id="full_name"
+        class="w-full
+        h-[50px]
+        bg-slate-950
+        border border-slate-700
+        rounded-xl
+        px-4
+        outline-none
+        focus:border-blue-500"
+      >
+
+    </div>
+
+    <!-- ROLE -->
+
+    <div class="mb-5">
+
+      <label class="block mb-2 text-sm text-slate-300">
+        Role
+      </label>
+
+      <select
+        id="role"
+        class="w-full
+        h-[50px]
+        bg-slate-950
+        border border-slate-700
+        rounded-xl
+        px-4
+        outline-none
+        focus:border-blue-500"
+      >
+
+        <option value="ADMIN">
+          ADMIN
+        </option>
+
+        <option value="STAFF">
+          STAFF
+        </option>
+
+        <option value="MEMBER">
+          MEMBER
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- STATUS -->
+
+    <div class="mb-6">
+
+      <label class="block mb-2 text-sm text-slate-300">
+        Status
+      </label>
+
+      <select
+        id="status"
+        class="w-full
+        h-[50px]
+        bg-slate-950
+        border border-slate-700
+        rounded-xl
+        px-4
+        outline-none
+        focus:border-blue-500"
+      >
+
+        <option value="ACTIVE">
+          ACTIVE
+        </option>
+
+        <option value="INACTIVE">
+          INACTIVE
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- BUTTON -->
+
+    <div class="flex gap-3">
+
+      <button
+        id="saveBtn"
+        onclick="saveMember()"
+        class="flex-1
+        h-[50px]
+        rounded-xl
+        bg-blue-600
+        hover:bg-blue-700
+        transition
+        font-medium"
+      >
+
+        บันทึกข้อมูล
+
+      </button>
+
+      <button
+        onclick="closeModal()"
+        class="w-[120px]
+        h-[50px]
+        rounded-xl
+        bg-slate-700
+        hover:bg-slate-600
+        transition"
+      >
+
+        ยกเลิก
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================== -->
+<!-- SCRIPT -->
+<!-- ======================================== -->
+
+<script>
+
+/* ======================================== */
+/* API */
+/* ======================================== */
+
+const API_URL =
+"http://localhost/basic/work/public/members.php";
+
+/* ======================================== */
+/* LOAD MEMBERS */
+/* ======================================== */
+
+async function loadMembers(search = ""){
+
+    try{
+
+        const response =
+        await fetch(API_URL);
+
+        const data =
+        await response.json();
+
+        let html = "";
+
+        const filtered =
+        data.filter(member =>
+
+            member.username.toLowerCase().includes(search.toLowerCase()) ||
+
+            member.full_name.toLowerCase().includes(search.toLowerCase())
+
+        );
+
+        filtered.forEach(member => {
+
+            html += `
+
+            <tr class="border-t border-slate-800 hover:bg-slate-800/40 transition">
+
+                <td class="p-4">
+                    ${member.username}
+                </td>
+
+                <td class="p-4">
+                    ${member.full_name}
+                </td>
+
+                <td class="p-4">
+
+                    <span class="px-3 py-1 rounded-full text-sm bg-blue-500/20 text-blue-400">
+                        ${member.role}
+                    </span>
+
+                </td>
+
+                <td class="p-4">
+
+                    <span class="px-3 py-1 rounded-full text-sm
+                    ${member.status === 'ACTIVE'
+                      ? 'bg-green-500/20 text-green-400'
+                      : 'bg-red-500/20 text-red-400'}
+                    ">
+
+                        ${member.status}
+
+                    </span>
+
+                </td>
+
+                <td class="p-4 text-slate-400">
+                    ${member.created_at}
+                </td>
+
+                <td class="p-4">
+
+                    <div class="flex items-center justify-center gap-2">
+
+                        <button
+                          onclick='editMember(${JSON.stringify(member)})'
+                          class="w-[38px]
+                          h-[38px]
+                          rounded-lg
+                          bg-yellow-500/20
+                          text-yellow-400
+                          hover:bg-yellow-500/30"
+                        >
+
+                            <i class='bx bx-edit'></i>
+
+                        </button>
+
+                        <button
+                          onclick="deleteMember(${member.user_id})"
+                          class="w-[38px]
+                          h-[38px]
+                          rounded-lg
+                          bg-red-500/20
+                          text-red-400
+                          hover:bg-red-500/30"
+                        >
+
+                            <i class='bx bx-trash'></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+        document.getElementById("memberTable").innerHTML =
+        html;
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+/* ======================================== */
+/* OPEN MODAL */
+/* ======================================== */
+
+function openModal(){
+
+    const modal =
+    document.getElementById("memberModal");
+
+    modal.classList.remove("hidden");
+
+    modal.classList.add("flex");
+
+}
+
+/* ======================================== */
+/* CLOSE MODAL */
+/* ======================================== */
+
+function closeModal(){
+
+    const modal =
+    document.getElementById("memberModal");
+
+    modal.classList.add("hidden");
+
+    modal.classList.remove("flex");
+
+}
+
+/* ======================================== */
+/* RESET */
+/* ======================================== */
+
+function resetForm(){
+
+    document.getElementById("user_id").value = "";
+
+    document.getElementById("username").value = "";
+
+    document.getElementById("password").value = "";
+
+    document.getElementById("full_name").value = "";
+
+    document.getElementById("role").value = "MEMBER";
+
+    document.getElementById("status").value = "ACTIVE";
+
+}
+
+/* ======================================== */
+/* SAVE */
+/* ======================================== */
+
+async function saveMember(){
+
+    const formData = {
+
+        user_id:
+        document.getElementById("user_id").value,
+
+        username:
+        document.getElementById("username").value,
+
+        password:
+        document.getElementById("password").value,
+
+        full_name:
+        document.getElementById("full_name").value,
+
+        role:
+        document.getElementById("role").value,
+
+        status:
+        document.getElementById("status").value
+
+    };
+
+    await fetch(API_URL,{
+
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify(formData)
+
+    });
+
+    closeModal();
+
+    loadMembers();
+
+}
+
+/* ======================================== */
+/* EDIT */
+/* ======================================== */
+
+function editMember(member){
+
+    openModal();
+
+    document.getElementById("user_id").value =
+    member.user_id;
+
+    document.getElementById("username").value =
+    member.username;
+
+    document.getElementById("password").value =
+    member.password;
+
+    document.getElementById("full_name").value =
+    member.full_name;
+
+    document.getElementById("role").value =
+    member.role;
+
+    document.getElementById("status").value =
+    member.status;
+
+}
+
+/* ======================================== */
+/* DELETE */
+/* ======================================== */
+
+async function deleteMember(id){
+
+    if(!confirm("ต้องการลบสมาชิกนี้ ?")){
+
+        return;
+
+    }
+
+    await fetch(API_URL,{
+
+        method:"DELETE",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          user_id:id
+        })
+
+    });
+
+    loadMembers();
+
+}
+
+/* ======================================== */
+/* SEARCH */
+/* ======================================== */
+
+document
+.getElementById("searchInput")
+.addEventListener("keyup",(e)=>{
+
+    loadMembers(e.target.value);
+
+});
+
+/* ======================================== */
+/* START */
+/* ======================================== */
+
+loadMembers();
+
+</script>
+
+</body>
+</html>

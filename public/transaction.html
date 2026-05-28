@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>รายการทั้งหมด</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Boxicons -->
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    *{
+      font-family:'Prompt',sans-serif;
+    }
+
+    body{
+      background:#0f172a;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    /* ========================= */
+    /* SIDEBAR */
+    /* ========================= */
+
+    .menu-active{
+      background:linear-gradient(to right,#2563eb,#3b82f6);
+      box-shadow:0 10px 30px rgba(37,99,235,.25);
+    }
+
+    .menu-item{
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:#1e293b;
+      transform:translateX(3px);
+    }
+
+    /* ========================= */
+    /* MAIN */
+    /* ========================= */
+
+    .main-content{
+      flex:1;
+      padding:24px;
+      width:100%;
+      overflow:hidden;
+    }
+
+    /* ========================= */
+    /* CARD */
+    /* ========================= */
+
+    .card-ui{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:20px;
+    }
+
+    /* ========================= */
+    /* SEARCH */
+    /* ========================= */
+
+    .search-input{
+      width:100%;
+      background:#0f172a;
+      border:1px solid #334155;
+      border-radius:14px;
+      padding:12px 16px;
+      color:white;
+      outline:none;
+    }
+
+    .search-input:focus{
+      border-color:#3b82f6;
+    }
+
+    /* ========================= */
+    /* BUTTON */
+    /* ========================= */
+
+    .btn{
+      background:#2563eb;
+      color:white;
+      border:none;
+      padding:12px 18px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.3s;
+      white-space:nowrap;
+    }
+
+    .btn:hover{
+      background:#1d4ed8;
+    }
+
+    .btn:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+    }
+
+    /* ========================= */
+    /* TABLE */
+    /* ========================= */
+
+    .table-scroll{
+      width:100%;
+      overflow-x:auto;
+    }
+
+    .table-scroll::-webkit-scrollbar{
+      height:6px;
+    }
+
+    .table-scroll::-webkit-scrollbar-thumb{
+      background:#475569;
+      border-radius:20px;
+    }
+
+    table{
+      width:100%;
+      min-width:1200px;
+      border-collapse:collapse;
+    }
+
+    thead{
+      background:#0f172a;
+    }
+
+    th{
+      padding:16px;
+      text-align:left;
+      color:#94a3b8;
+      font-weight:500;
+      border-bottom:1px solid #334155;
+      white-space:nowrap;
+    }
+
+    td{
+      padding:18px 16px;
+      border-bottom:1px solid #334155;
+      white-space:nowrap;
+    }
+
+    tbody tr:hover{
+      background:#0f172a;
+      transition:.2s;
+    }
+
+    /* ========================= */
+    /* STATUS */
+    /* ========================= */
+
+    .status-insert{
+      background:#14532d;
+      color:#4ade80;
+      padding:6px 14px;
+      border-radius:999px;
+      font-size:13px;
+    }
+
+    .status-update{
+      background:#78350f;
+      color:#facc15;
+      padding:6px 14px;
+      border-radius:999px;
+      font-size:13px;
+    }
+
+    .status-delete{
+      background:#7f1d1d;
+      color:#f87171;
+      padding:6px 14px;
+      border-radius:999px;
+      font-size:13px;
+    }
+
+    /* ========================= */
+    /* ALERT */
+    /* ========================= */
+
+    .alert {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 14px;
+      font-weight: 600;
+      z-index: 100;
+      animation: slideInRight 0.3s ease-out;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+    }
+
+    .alert-success {
+      background: #065f46;
+      border: 1px solid #10b981;
+      color: #d1fae5;
+    }
+
+    .alert-error {
+      background: #7c2d12;
+      border: 1px solid #ea580c;
+      color: #fed7aa;
+    }
+
+    .action-btn{
+      width:38px;
+      height:38px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      color:white;
+      transition:.2s;
+    }
+
+    .edit-btn{
+      background:#2563eb;
+    }
+
+    .edit-btn:hover{
+      background:#1d4ed8;
+    }
+
+    .delete-btn{
+      background:#dc2626;
+    }
+
+    .delete-btn:hover{
+      background:#b91c1c;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- HEADER -->
+<!-- ========================= -->
+
+<header
+class="h-[70px]
+border-b border-slate-800
+flex items-center justify-between
+px-4 lg:px-6
+bg-slate-900
+sticky top-0 z-30"
+>
+
+  <!-- LEFT -->
+
+  <div class="flex items-center gap-3">
+
+    <!-- MOBILE MENU -->
+
+    <button
+      id="menuBtn"
+      class="lg:hidden
+      w-[42px]
+      h-[42px]
+      rounded-xl
+      bg-blue-600
+      flex items-center justify-center"
+    >
+
+      <i class='bx bx-menu text-2xl text-white'></i>
+
+    </button>
+
+    <!-- LOGO -->
+
+    <div class="flex items-center gap-3">
+
+      <div
+      class="w-[42px]
+      h-[42px]
+      rounded-xl
+      bg-blue-600
+      flex items-center justify-center"
+      >
+
+        <i class='bx bx-transfer text-2xl'></i>
+
+      </div>
+
+      <div>
+
+        <h1 class="font-bold text-lg">
+          ระบบการโยกเงิน
+        </h1>
+
+        <p class="text-xs text-slate-400">
+          Money Transfer System
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+
+  <div class="flex items-center gap-4">
+
+    <!-- SEARCH -->
+
+    <div class="hidden lg:flex relative">
+
+      <input
+        type="text"
+        placeholder="ค้นหารายการ..."
+        class="w-[280px]
+        h-[45px]
+        bg-slate-800
+        border border-slate-700
+        rounded-xl
+        pl-11 pr-4
+        text-sm
+        outline-none
+        focus:border-blue-500"
+      >
+
+      <i
+      class='bx bx-search
+      absolute
+      left-4
+      top-1/2
+      -translate-y-1/2
+      text-slate-400'
+      ></i>
+
+    </div>
+
+    <!-- USER -->
+
+    <div class="flex items-center gap-3">
+
+      <div class="text-right hidden sm:block">
+
+        <h1 class="font-medium">
+          ADMIN
+        </h1>
+
+        <p class="text-xs text-slate-400">
+          ผู้ดูแลระบบ
+        </p>
+
+      </div>
+
+      <img
+        src="https://i.pravatar.cc/100"
+        class="w-[45px]
+        h-[45px]
+        rounded-full
+        border-2 border-blue-500"
+      >
+
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ========================= -->
+<!-- BODY -->
+<!-- ========================= -->
+
+<div class="flex relative min-h-[calc(100vh-70px)]">
+
+  <!-- BACKDROP -->
+
+  <div
+    id="sidebarBackdrop"
+    class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"
+  ></div>
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside
+    id="sidebar"
+    class="fixed lg:static
+    top-0 left-0
+    z-50
+    w-[260px]
+    h-screen lg:h-auto
+    bg-slate-900
+    border-r border-slate-800
+    p-4
+    transform
+    -translate-x-full
+    lg:translate-x-0
+    transition-all
+    duration-300
+    overflow-y-auto"
+  >
+
+    <!-- MOBILE TOP -->
+
+    <div class="flex items-center justify-between mb-6 lg:hidden">
+
+      <h1 class="text-xl font-bold">
+        MENU
+      </h1>
+
+      <button id="closeSidebar">
+
+        <i class='bx bx-x text-3xl'></i>
+
+      </button>
+
+    </div>
+
+    <!-- MENU -->
+
+    <div class="space-y-2">
+
+      <!-- DASHBOARD -->
+
+      <button
+        onclick="window.location.href='dashboard.html'"
+        class="menu-item
+        w-full h-[52px]
+        flex items-center gap-3
+        px-4 rounded-xl transition"
+      >
+
+        <i class='bx bxs-dashboard text-xl'></i>
+
+        <span>Dashboard</span>
+
+      </button>
+
+      <!-- ACCOUNT -->
+
+      <button
+        onclick="window.location.href='account.html'"
+        class="menu-item
+        w-full h-[52px]
+        flex items-center gap-3
+        px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-wallet text-xl text-cyan-400'></i>
+
+        <span>จัดการบัญชี</span>
+
+      </button>
+
+      <!-- TRANSFER -->
+
+      <button
+        onclick="window.location.href='transfer.html'"
+        class="menu-item
+        w-full h-[52px]
+        flex items-center gap-3
+        px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-transfer-alt text-xl text-green-400'></i>
+
+        <span>โยกเงิน</span>
+
+      </button>
+
+      <!-- TRANSACTION -->
+
+      <button
+        onclick="window.location.href='transaction.html'"
+        class="menu-active
+        w-full h-[52px]
+        flex items-center gap-3
+        px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-history text-xl text-orange-400'></i>
+
+        <span>รายการทั้งหมด</span>
+
+      </button>
+
+      <!-- MEMBER -->
+
+      <button
+        onclick="window.location.href='member.html'"
+        class="menu-item
+        w-full h-[52px]
+        flex items-center gap-3
+        px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-user text-xl text-pink-400'></i>
+
+        <span>สมาชิก</span>
+
+      </button>
+
+      <!-- SETTING -->
+
+      <button
+        onclick="window.location.href='setting.html'"
+        class="menu-item
+        w-full h-[52px]
+        flex items-center gap-3
+        px-4 rounded-xl transition"
+      >
+
+        <i class='bx bx-cog text-xl text-yellow-400'></i>
+
+        <span>ตั้งค่า</span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- ========================= -->
+  <!-- MAIN CONTENT -->
+  <!-- ========================= -->
+
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+
+    <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 mb-6">
+
+      <div>
+
+        <h1 class="text-3xl font-bold">
+          ประวัติรายการทั้งหมด
+        </h1>
+
+        <p class="text-slate-400 mt-1">
+          บันทึกการเปลี่ยนแปลงข้อมูลในระบบ
+        </p>
+
+      </div>
+
+      <!-- RIGHT -->
+
+      <div class="flex flex-col md:flex-row gap-3 w-full xl:w-auto">
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="ค้นหารายการ..."
+          class="search-input md:w-[250px]"
+        >
+
+        <select id="actionFilter" class="search-input md:w-[180px]">
+
+          <option value="">ทุกประเภท</option>
+          <option value="โยกเข้าระบบ">โยกเข้าระบบ</option>
+          <option value="โยกระหว่างบัญชี">โยกระหว่างบัญชี</option>
+          <option value="โยกออกระบบ">โยกออกระบบ</option>
+
+        </select>
+
+        <button class="btn" onclick="exportData()">
+
+          <i class='bx bx-export mr-1'></i>
+
+          Export
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+
+  <div class="card p-4">
+    <p class="text-slate-400 text-sm">รายการทั้งหมด</p>
+    <h1 id="totalLogs" class="text-2xl font-bold">0</h1>
+  </div>
+
+  <div class="card p-4">
+    <p class="text-slate-400 text-sm">สำเร็จ</p>
+    <h1 id="totalAdded" class="text-2xl font-bold text-green-400">0</h1>
+  </div>
+
+  <div class="card p-4">
+    <p class="text-slate-400 text-sm">รอดำเนินการ</p>
+    <h1 id="totalUpdated" class="text-2xl font-bold text-yellow-400">0</h1>
+  </div>
+
+  <div class="card p-4">
+    <p class="text-slate-400 text-sm">ยอดรวม</p>
+    <h1 id="totalDeleted" class="text-2xl font-bold text-red-400">0</h1>
+  </div>
+
+  <div class="card p-4">
+    <p class="text-slate-400 text-sm">สถานะ</p>
+    <h1 id="totalCounter" class="text-lg font-bold">
+      ทั้งหมด 0 รายการ
+    </h1>
+  </div>
+
+</div>
+
+    <!-- TABLE -->
+
+    <div class="card-ui p-5">
+
+      <!-- HEADER -->
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
+
+        <div>
+
+          <h2 class="text-xl font-semibold">
+            บันทึกการเปลี่ยนแปลง
+          </h2>
+
+          <p class="text-slate-400 text-sm mt-1">
+            ข้อมูลรายการเพิ่ม แก้ไข ลบ ในระบบ
+          </p>
+
+        </div>
+
+        <span class="text-slate-400 text-sm" id="totalCounter">
+          ทั้งหมด 0 รายการ
+        </span>
+
+      </div>
+
+      <!-- TABLE -->
+
+      <div class="table-scroll">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>ลำดับ</th>
+              <th>เว็บไซต์</th>
+              <th>บัญชีต้นทาง</th>
+              <th>บัญชีปลายทาง</th>
+              <th>จำนวนเงิน</th>
+              <th>ประเภท</th>
+              <th>สถานะ</th>
+              <th>ผู้ทำรายการ</th>
+              <th>หมายเหตุ</th>
+              <th>วันที่</th>
+              <th>จัดการ</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="logTable">
+
+            <tr>
+              <td colspan="6" class="text-center py-8 text-slate-400">
+                กำลังโหลดข้อมูล...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<!-- ========================= -->
+<!-- SCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+// =========================
+// API URL
+// =========================
+
+const API_URL =
+"http://localhost/basic/work/public/transaction_logs.php";
+
+// =========================
+// DOM
+// =========================
+
+const logTable =
+document.getElementById("logTable");
+
+const searchInput =
+document.getElementById("searchInput");
+
+const actionFilter =
+document.getElementById("actionFilter");
+
+let allLogs = [];
+
+// =========================
+// FORMAT DATE
+// =========================
+
+function formatDate(dateString) {
+
+  if (!dateString) return "-";
+
+  const date = new Date(dateString);
+
+  return date.toLocaleString("th-TH", {
+
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+
+  });
+
+}
+
+// =========================
+// STATUS BADGE
+// =========================
+
+function getStatusBadge(status) {
+
+  if (!status) {
+
+    return `
+      <span class="status-update">
+        ไม่ระบุ
+      </span>
+    `;
+
+  }
+
+  const lower =
+  status.toLowerCase();
+
+  if (
+    lower === "สำเร็จ" ||
+    lower === "success"
+  ) {
+
+    return `
+      <span class="status-insert">
+        สำเร็จ
+      </span>
+    `;
+
+  }
+
+  if (
+    lower === "รอดำเนินการ" ||
+    lower === "pending"
+  ) {
+
+    return `
+      <span class="status-update">
+        รอดำเนินการ
+      </span>
+    `;
+
+  }
+
+  return `
+    <span class="status-delete">
+      ${status}
+    </span>
+  `;
+
+}
+
+// =========================
+// ALERT
+// =========================
+
+function showAlert(type, message) {
+
+  const alertDiv =
+  document.createElement("div");
+
+  alertDiv.className =
+  `alert alert-${type}`;
+
+  alertDiv.innerHTML = `
+    <div>
+      ${message}
+    </div>
+  `;
+
+  document.body.appendChild(alertDiv);
+
+  setTimeout(() => {
+
+    alertDiv.remove();
+
+  }, 3000);
+
+}
+
+// =========================
+// LOAD TRANSACTIONS
+// =========================
+
+async function loadLogs() {
+
+  try {
+
+    logTable.innerHTML = `
+      <tr>
+        <td colspan="11"
+        class="text-center py-10 text-slate-400">
+          กำลังโหลดข้อมูล...
+        </td>
+      </tr>
+    `;
+
+    const response =
+    await fetch(API_URL);
+
+    if (!response.ok) {
+
+      throw new Error(
+        "โหลดข้อมูลไม่สำเร็จ"
+      );
+
+    }
+
+    const result =
+    await response.json();
+
+    console.log(result);
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message
+      );
+
+    }
+
+    allLogs =
+    result.data || [];
+
+    renderLogs(allLogs);
+
+    updateStats(allLogs);
+
+  } catch (error) {
+
+    console.error(error);
+
+    logTable.innerHTML = `
+      <tr>
+        <td colspan="11"
+        class="text-center py-10 text-red-400">
+          โหลดข้อมูลไม่สำเร็จ
+        </td>
+      </tr>
+    `;
+
+    showAlert(
+      "error",
+      error.message
+    );
+
+  }
+
+}
+
+// =========================
+// UPDATE STATS
+// =========================
+
+function updateStats(data) {
+
+  document.getElementById(
+    "totalLogs"
+  ).innerText = data.length;
+
+  const successCount =
+  data.filter(item =>
+
+    item.transfer_status === "สำเร็จ" ||
+
+    item.transfer_status === "success"
+
+  ).length;
+
+  const pendingCount =
+  data.filter(item =>
+
+    item.transfer_status === "รอดำเนินการ" ||
+
+    item.transfer_status === "pending"
+
+  ).length;
+
+  const totalAmount =
+  data.reduce((sum, item) => {
+
+    return sum +
+    parseFloat(item.amount || 0);
+
+  }, 0);
+
+  document.getElementById(
+    "totalAdded"
+  ).innerText = successCount;
+
+  document.getElementById(
+    "totalUpdated"
+  ).innerText = pendingCount;
+
+  document.getElementById(
+    "totalDeleted"
+  ).innerText =
+  totalAmount.toLocaleString("th-TH");
+
+const tbody = document.getElementById('logTable');
+const totalCounter = document.getElementById('totalCounter');
+
+const rows = tbody.querySelectorAll('tr').length;
+
+totalCounter.innerText = `ทั้งหมด ${rows} รายการ`;
+
+}
+
+// =========================
+// RENDER TABLE
+// =========================
+
+function renderLogs(data) {
+
+  if (data.length === 0) {
+
+    logTable.innerHTML = `
+      <tr>
+        <td colspan="11"
+        class="text-center py-10 text-slate-400">
+          ไม่พบข้อมูล
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+  let html = "";
+
+  data.forEach((item, index) => {
+
+    html += `
+
+      <tr>
+
+        <td>
+          #${index + 1}
+        </td>
+
+        <td>
+          ${item.website_name || "-"}
+        </td>
+
+        <td>
+          ${item.from_bank || "-"}
+        </td>
+
+        <td>
+          ${item.to_bank || "-"}
+        </td>
+
+        <td class="text-green-400 font-semibold">
+          ${Number(item.amount)
+            .toLocaleString("th-TH")} บาท
+        </td>
+
+        <td>
+          ${item.transfer_type || "-"}
+        </td>
+
+        <td>
+          ${getStatusBadge(
+            item.transfer_status
+          )}
+        </td>
+
+        <td>
+          ${item.full_name || "-"}
+        </td>
+
+        <td style="
+          max-width:250px;
+          white-space:normal;
+        ">
+          ${item.note || "-"}
+        </td>
+
+        <td>
+          ${formatDate(
+            item.created_at
+          )}
+        </td>
+
+        <td>
+
+          <button
+            onclick="deleteLog(${item.log_id})"
+            class="action-btn delete-btn"
+          >
+
+            <i class='bx bx-trash'></i>
+
+          </button>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+  logTable.innerHTML = html;
+
+}
+
+// =========================
+// SEARCH
+// =========================
+
+function filterLogs() {
+
+  const keyword =
+  searchInput.value.toLowerCase();
+
+  const status =
+  actionFilter.value.toLowerCase();
+
+  const filtered =
+  allLogs.filter(item => {
+
+    const matchKeyword =
+
+      (item.website_name || "")
+      .toLowerCase()
+      .includes(keyword) ||
+
+      (item.from_bank || "")
+      .toLowerCase()
+      .includes(keyword) ||
+
+      (item.to_bank || "")
+      .toLowerCase()
+      .includes(keyword) ||
+
+      (item.transfer_type || "")
+      .toLowerCase()
+      .includes(keyword) ||
+
+      (item.transfer_status || "")
+      .toLowerCase()
+      .includes(keyword) ||
+
+      (item.full_name || "")
+      .toLowerCase()
+      .includes(keyword) ||
+
+      (item.note || "")
+      .toLowerCase()
+      .includes(keyword);
+
+    const matchStatus =
+
+      !status ||
+
+      (item.transfer_status || "")
+      .toLowerCase() === status;
+
+    return (
+      matchKeyword &&
+      matchStatus
+    );
+
+  });
+
+  renderLogs(filtered);
+
+  updateStats(filtered);
+
+}
+
+searchInput.addEventListener(
+  "input",
+  filterLogs
+);
+
+actionFilter.addEventListener(
+  "change",
+  filterLogs
+);
+
+// =========================
+// DELETE
+// =========================
+
+async function deleteLog(id) {
+
+  if (
+    !confirm(
+      "ต้องการลบรายการนี้ใช่หรือไม่ ?"
+    )
+  ) {
+    return;
+  }
+
+  try {
+
+    const response =
+    await fetch(API_URL, {
+
+      method: "DELETE",
+
+      headers: {
+        "Content-Type":
+        "application/json"
+      },
+
+      body: JSON.stringify({
+
+        log_id: id
+
+      })
+
+    });
+
+    const result =
+    await response.json();
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message
+      );
+
+    }
+
+    showAlert(
+      "success",
+      "ลบข้อมูลสำเร็จ"
+    );
+
+    loadLogs();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showAlert(
+      "error",
+      error.message
+    );
+
+  }
+
+}
+
+// =========================
+// EXPORT CSV
+// =========================
+
+function exportData() {
+
+  if (allLogs.length === 0) {
+
+    showAlert(
+      "error",
+      "ไม่มีข้อมูล"
+    );
+
+    return;
+
+  }
+
+  let csv =
+`ID,เว็บไซต์,บัญชีต้นทาง,บัญชีปลายทาง,จำนวนเงิน,ประเภท,สถานะ,ผู้ทำรายการ,หมายเหตุ,วันที่
+`;
+
+  allLogs.forEach(item => {
+
+    csv += `
+${item.log_id},
+"${item.website_name}",
+"${item.from_bank}",
+"${item.to_bank}",
+${item.amount},
+"${item.transfer_type}",
+"${item.transfer_status}",
+"${item.full_name}",
+"${item.note}",
+"${formatDate(item.created_at)}"
+`;
+
+  });
+
+  const blob =
+  new Blob(
+
+    [csv],
+
+    {
+      type:
+      "text/csv;charset=utf-8;"
+    }
+
+  );
+
+  const link =
+  document.createElement("a");
+
+  link.href =
+  URL.createObjectURL(blob);
+
+  link.download =
+  "transactions.csv";
+
+  link.click();
+
+  showAlert(
+    "success",
+    "Export CSV สำเร็จ"
+  );
+
+}
+
+// =========================
+// START
+// =========================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    loadLogs();
+
+  }
+);
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>ตั้งค่าระบบ</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Boxicons -->
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    *{
+      font-family:'Prompt',sans-serif;
+    }
+
+    body{
+      background:#0f172a;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    /* ========================= */
+    /* SIDEBAR */
+    /* ========================= */
+
+    .menu-active{
+      background:linear-gradient(to right,#2563eb,#3b82f6);
+    }
+
+    .menu-item{
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:#1e293b;
+    }
+
+    /* ========================= */
+    /* CARD */
+    /* ========================= */
+
+    .card{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:22px;
+    }
+
+    /* ========================= */
+    /* FORM */
+    /* ========================= */
+
+    .form-group{
+      margin-bottom:22px;
+    }
+
+    .form-group label{
+      display:block;
+      margin-bottom:10px;
+      color:#cbd5e1;
+      font-size:14px;
+      font-weight:500;
+    }
+
+    .form-control{
+      width:100%;
+      background:#0f172a;
+      border:1px solid #334155;
+      border-radius:14px;
+      padding:15px;
+      outline:none;
+      color:white;
+      transition:.2s;
+    }
+
+    .form-control:focus{
+      border-color:#3b82f6;
+      box-shadow:0 0 0 3px rgba(59,130,246,.15);
+    }
+
+    /* ========================= */
+    /* BUTTON */
+    /* ========================= */
+
+    .btn-primary{
+      background:linear-gradient(to right,#2563eb,#3b82f6);
+      border:none;
+      color:white;
+      border-radius:14px;
+      padding:14px 18px;
+      font-weight:600;
+      transition:.2s;
+    }
+
+    .btn-primary:hover{
+      opacity:.9;
+      transform:translateY(-1px);
+    }
+
+    .btn-secondary{
+      background:#334155;
+      border:none;
+      color:white;
+      border-radius:14px;
+      padding:14px 18px;
+      transition:.2s;
+    }
+
+    .btn-secondary:hover{
+      background:#475569;
+    }
+
+    .setting-card{
+      background:#0f172a;
+      border:1px solid #334155;
+      border-radius:18px;
+      padding:20px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- HEADER -->
+<!-- ========================= -->
+
+<header
+class="h-[70px]
+border-b border-slate-800
+flex items-center justify-between
+px-4 lg:px-6
+bg-slate-900
+sticky top-0 z-30"
+>
+
+  <!-- LEFT -->
+
+  <div class="flex items-center gap-3">
+
+    <!-- MOBILE MENU -->
+
+    <button
+      id="menuBtn"
+      class="lg:hidden
+      w-[42px]
+      h-[42px]
+      rounded-xl
+      bg-blue-600
+      flex items-center justify-center"
+    >
+
+      <i class='bx bx-menu text-2xl text-white'></i>
+
+    </button>
+
+    <!-- LOGO -->
+
+    <div class="flex items-center gap-3">
+
+      <div
+      class="w-[42px]
+      h-[42px]
+      rounded-xl
+      bg-blue-600
+      flex items-center justify-center"
+      >
+
+        <i class='bx bx-transfer text-2xl text-white'></i>
+
+      </div>
+
+      <div class="leading-tight">
+
+        <h1 class="font-bold text-lg">
+          ระบบการโยกเงิน
+        </h1>
+
+        <p class="text-xs text-slate-400">
+          Money Transfer System
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+
+  <div class="flex items-center gap-4">
+
+    <!-- SEARCH -->
+
+    <div class="hidden lg:flex relative">
+
+      <input
+        type="text"
+        placeholder="ค้นหารายการ..."
+        class="w-[280px]
+        h-[45px]
+        bg-slate-800
+        border border-slate-700
+        rounded-xl
+        pl-11 pr-4
+        text-sm
+        outline-none
+        focus:border-blue-500"
+      >
+
+      <i
+      class='bx bx-search
+      absolute
+      left-4
+      top-1/2
+      -translate-y-1/2
+      text-slate-400'
+      ></i>
+
+    </div>
+
+    <!-- USER -->
+
+    <div class="flex items-center gap-3">
+
+      <div class="text-right hidden sm:block">
+
+        <h1 class="font-medium leading-none">
+          ADMIN
+        </h1>
+
+        <p class="text-xs text-slate-400 mt-1">
+          ผู้ดูแลระบบ
+        </p>
+
+      </div>
+
+      <img
+        src="https://i.pravatar.cc/100"
+        class="w-[45px]
+        h-[45px]
+        rounded-full
+        border-2 border-blue-500
+        object-cover"
+      >
+
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ========================= -->
+<!-- BODY -->
+<!-- ========================= -->
+
+<div class="flex relative">
+
+  <!-- BACKDROP -->
+
+  <div
+    id="sidebarBackdrop"
+    class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"
+  ></div>
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside
+    id="sidebar"
+    class="fixed lg:static
+    top-0 left-0
+    z-50 lg:z-10
+    w-[260px]
+    h-screen lg:h-[calc(100vh-70px)]
+    bg-slate-900
+    border-r border-slate-800
+    p-4
+    transform
+    -translate-x-full
+    lg:translate-x-0
+    transition-all
+    duration-300
+    overflow-y-auto"
+  >
+
+    <!-- MOBILE TOP -->
+
+    <div
+    class="flex items-center justify-between
+    mb-6 lg:hidden"
+    >
+
+      <h1 class="text-xl font-bold">
+        MENU
+      </h1>
+
+      <button id="closeSidebar">
+
+        <i class='bx bx-x text-3xl'></i>
+
+      </button>
+
+    </div>
+
+    <!-- MENU -->
+
+    <div class="space-y-2">
+
+      <!-- Dashboard -->
+
+      <button
+        onclick="window.location.href='dashboard.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bxs-dashboard text-xl'></i>
+
+        <span>Dashboard</span>
+
+      </button>
+
+      <!-- ACCOUNT -->
+
+      <button
+        onclick="window.location.href='account.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-wallet text-xl text-cyan-400'></i>
+
+        <span>จัดการบัญชี</span>
+
+      </button>
+
+      <!-- TRANSFER -->
+
+      <button
+        onclick="window.location.href='transfer.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-transfer-alt text-xl text-green-400'></i>
+
+        <span>โยกเงิน</span>
+
+      </button>
+
+      <!-- TRANSACTION -->
+
+      <button
+        onclick="window.location.href='transaction.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-history text-xl text-orange-400'></i>
+
+        <span>รายการทั้งหมด</span>
+
+      </button>
+
+      <!-- MEMBER -->
+
+      <button
+        onclick="window.location.href='member.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-user text-xl text-pink-400'></i>
+
+        <span>สมาชิก</span>
+
+      </button>
+
+      <!-- SETTING -->
+
+      <button
+        onclick="window.location.href='setting.html'"
+        class="menu-active
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl"
+      >
+
+        <i class='bx bx-cog text-xl text-yellow-400'></i>
+
+        <span>ตั้งค่า</span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- ========================= -->
+  <!-- MAIN -->
+  <!-- ========================= -->
+
+  <main class="flex-1 p-4 lg:p-6">
+
+    <!-- TITLE -->
+
+    <div class="mb-8">
+
+      <h1 class="text-3xl font-bold">
+        ตั้งค่าระบบ
+      </h1>
+
+      <p class="text-slate-400 mt-1">
+        จัดการค่าระบบ ลิมิตบัญชี และการตั้งค่าทั่วไป
+      </p>
+
+    </div>
+
+    <!-- GRID -->
+
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6">
+
+      <!-- LEFT -->
+
+      <div class="card p-6">
+
+        <!-- LIMIT -->
+
+        <div class="mb-8">
+
+          <h2 class="text-xl font-semibold mb-5">
+            ลิมิตบัญชี
+          </h2>
+
+          <div class="space-y-5">
+
+            <!-- SCB -->
+
+            <div class="setting-card">
+
+              <div class="flex items-center justify-between mb-4">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="w-[50px] h-[50px] rounded-xl bg-blue-500/20 flex items-center justify-center">
+
+                    <i class='bx bx-wallet text-2xl text-blue-400'></i>
+
+                  </div>
+
+                  <div>
+
+                    <h1 class="font-semibold">
+                      SCB
+                    </h1>
+
+                    <p class="text-sm text-slate-400">
+                      ลิมิตการโยกต่อวัน
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <input
+                type="number"
+                value="200000"
+                class="form-control"
+              >
+
+            </div>
+
+            <!-- KBANK -->
+
+            <div class="setting-card">
+
+              <div class="flex items-center gap-3 mb-4">
+
+                <div class="w-[50px] h-[50px] rounded-xl bg-green-500/20 flex items-center justify-center">
+
+                  <i class='bx bx-credit-card text-2xl text-green-400'></i>
+
+                </div>
+
+                <div>
+
+                  <h1 class="font-semibold">
+                    KBANK
+                  </h1>
+
+                  <p class="text-sm text-slate-400">
+                    ลิมิตการโยกต่อวัน
+                  </p>
+
+                </div>
+
+              </div>
+
+              <input
+                type="number"
+                value="50000"
+                class="form-control"
+              >
+
+            </div>
+
+            <!-- TRUE -->
+
+            <div class="setting-card">
+
+              <div class="flex items-center gap-3 mb-4">
+
+                <div class="w-[50px] h-[50px] rounded-xl bg-orange-500/20 flex items-center justify-center">
+
+                  <i class='bx bx-mobile text-2xl text-orange-400'></i>
+
+                </div>
+
+                <div>
+
+                  <h1 class="font-semibold">
+                    TRUE Wallet
+                  </h1>
+
+                  <p class="text-sm text-slate-400">
+                    ลิมิตการโยกต่อวัน
+                  </p>
+
+                </div>
+
+              </div>
+
+              <input
+                type="number"
+                value="30000"
+                class="form-control"
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- SYSTEM -->
+
+        <div>
+
+          <h2 class="text-xl font-semibold mb-5">
+            ตั้งค่าระบบ
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <div class="form-group">
+
+              <label>
+                Timeout Session (นาที)
+              </label>
+
+              <input
+                type="number"
+                value="30"
+                class="form-control"
+              >
+
+            </div>
+
+            <div class="form-group">
+
+              <label>
+                จำนวนรายการต่อหน้า
+              </label>
+
+              <input
+                type="number"
+                value="20"
+                class="form-control"
+              >
+
+            </div>
+
+          </div>
+
+          <!-- BUTTON -->
+
+          <div class="flex gap-4 mt-6">
+
+            <button class="btn-primary flex-1">
+
+              <i class='bx bx-save mr-1'></i>
+
+              บันทึกการตั้งค่า
+
+            </button>
+
+            <button class="btn-secondary">
+
+              <i class='bx bx-reset'></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+
+      <div class="space-y-5">
+
+        <!-- INFO -->
+
+        <div class="card p-5">
+
+          <div class="flex items-center gap-4">
+
+            <div class="w-[55px] h-[55px] rounded-2xl bg-blue-500/20 flex items-center justify-center">
+
+              <i class='bx bx-shield-quarter text-3xl text-blue-400'></i>
+
+            </div>
+
+            <div>
+
+              <h1 class="font-semibold">
+                ความปลอดภัยระบบ
+              </h1>
+
+              <p class="text-sm text-slate-400 mt-1">
+                ระบบจะบันทึกทุกการเปลี่ยนแปลงอัตโนมัติ
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="card p-5">
+
+          <div class="flex items-center gap-4">
+
+            <div class="w-[55px] h-[55px] rounded-2xl bg-green-500/20 flex items-center justify-center">
+
+              <i class='bx bx-data text-3xl text-green-400'></i>
+
+            </div>
+
+            <div>
+
+              <h1 class="font-semibold">
+                Database
+              </h1>
+
+              <p class="text-sm text-slate-400 mt-1">
+                เชื่อมต่อฐานข้อมูลสำเร็จ
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="card p-5">
+
+          <div class="flex items-center gap-4">
+
+            <div class="w-[55px] h-[55px] rounded-2xl bg-yellow-500/20 flex items-center justify-center">
+
+              <i class='bx bx-time-five text-3xl text-yellow-400'></i>
+
+            </div>
+
+            <div>
+
+              <h1 class="font-semibold">
+                เวลาทำงานระบบ
+              </h1>
+
+              <p class="text-sm text-slate-400 mt-1">
+                ออนไลน์ตลอด 24 ชั่วโมง
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<!-- ========================= -->
+<!-- SCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const sidebar =
+document.getElementById("sidebar");
+
+const backdrop =
+document.getElementById("sidebarBackdrop");
+
+const closeSidebar =
+document.getElementById("closeSidebar");
+
+/* OPEN */
+
+menuBtn.addEventListener("click",()=>{
+
+    sidebar.classList.remove("-translate-x-full");
+
+    backdrop.classList.remove("hidden");
+
+});
+
+/* CLOSE */
+
+function closeMenu(){
+
+    sidebar.classList.add("-translate-x-full");
+
+    backdrop.classList.add("hidden");
+
+}
+
+closeSidebar.addEventListener("click",closeMenu);
+
+backdrop.addEventListener("click",closeMenu);
+
+</script>
+
+</body>
+</html>

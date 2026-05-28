@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>จัดการบัญชี</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Boxicons -->
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    *{
+      font-family:'Prompt',sans-serif;
+    }
+
+    body{
+      background:#0f172a;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    .card{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:20px;
+    }
+
+    .menu-active{
+      background:linear-gradient(to right,#2563eb,#3b82f6);
+      box-shadow:0 10px 30px rgba(37,99,235,.25);
+    }
+
+    .menu-item{
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:#1e293b;
+      transform:translateX(3px);
+    }
+
+    .form-box{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:20px;
+      padding:30px;
+    }
+
+    .form-group{
+      margin-bottom:20px;
+    }
+
+    .form-group label{
+      display:block;
+      margin-bottom:10px;
+      color:#cbd5e1;
+      font-size:14px;
+      font-weight:500;
+    }
+
+    .form-control{
+      width:100%;
+      height:52px;
+      background:#0f172a;
+      border:1px solid #334155;
+      border-radius:14px;
+      padding:0 16px;
+      color:white;
+      outline:none;
+      transition:.2s;
+    }
+
+    .form-control:focus{
+      border-color:#3b82f6;
+      box-shadow:0 0 0 3px rgba(59,130,246,.15);
+    }
+
+    .btn{
+      height:50px;
+      padding:0 20px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:600;
+      transition:.2s;
+    }
+
+    .btn-primary{
+      background:#2563eb;
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:#1d4ed8;
+    }
+
+    .btn-primary:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+    }
+
+    .status-active{
+      background:#14532d;
+      color:#4ade80;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:13px;
+    }
+
+    .status-inactive{
+      background:#7c2d12;
+      color:#fd7e14;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:13px;
+    }
+
+    .action-btn{
+      width:38px;
+      height:38px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      color:white;
+      transition:.2s;
+    }
+
+    .edit-btn{
+      background:#2563eb;
+    }
+
+    .edit-btn:hover{
+      background:#1d4ed8;
+    }
+
+    .delete-btn{
+      background:#dc2626;
+    }
+
+    .delete-btn:hover{
+      background:#b91c1c;
+    }
+
+    /* ALERT */
+    .alert {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 14px;
+      font-weight: 600;
+      z-index: 100;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .alert-success {
+      background: #065f46;
+      border: 1px solid #10b981;
+      color: #d1fae5;
+    }
+
+    .alert-error {
+      background: #7c2d12;
+      border: 1px solid #ea580c;
+      color: #fed7aa;
+    }
+
+    .alert-info {
+      background: #0c4a6e;
+      border: 1px solid #0ea5e9;
+      color: #cffafe;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- HEADER -->
+<!-- ========================= -->
+
+<header
+class="w-full
+h-[70px]
+border-b border-slate-800
+bg-slate-900
+sticky top-0 z-30"
+>
+
+  <div
+  class="h-full
+  flex items-center justify-between
+  px-4 lg:px-6"
+  >
+
+    <!-- LEFT -->
+
+    <div class="flex items-center gap-4 min-w-0">
+
+      <!-- MOBILE MENU -->
+
+      <button
+        id="menuBtn"
+        class="lg:hidden
+        min-w-[42px]
+        w-[42px]
+        h-[42px]
+        rounded-xl
+        bg-blue-600
+        flex items-center justify-center
+        flex-shrink-0"
+      >
+
+        <i class='bx bx-menu text-2xl text-white'></i>
+
+      </button>
+
+      <!-- LOGO -->
+
+      <div class="flex items-center gap-3 min-w-0">
+
+        <div
+        class="min-w-[42px]
+        w-[42px]
+        h-[42px]
+        rounded-xl
+        bg-blue-600
+        flex items-center justify-center
+        flex-shrink-0"
+        >
+
+          <i class='bx bx-transfer text-2xl text-white'></i>
+
+        </div>
+
+        <div class="leading-tight truncate">
+
+          <h1 class="font-bold text-lg whitespace-nowrap">
+            ระบบการโยกเงิน
+          </h1>
+
+          <p class="text-xs text-slate-400 whitespace-nowrap">
+            Money Transfer System
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="flex items-center gap-3 lg:gap-4 flex-shrink-0">
+
+      <!-- SEARCH -->
+
+      <div class="hidden xl:flex relative">
+
+        <input
+          type="text"
+          placeholder="ค้นหารายการ..."
+          class="w-[300px]
+          h-[44px]
+          bg-slate-800
+          border border-slate-700
+          rounded-xl
+          pl-11 pr-4
+          text-sm
+          text-white
+          outline-none
+          focus:border-blue-500"
+        >
+
+        <i
+        class='bx bx-search
+        absolute
+        left-4
+        top-1/2
+        -translate-y-1/2
+        text-slate-400'
+        ></i>
+
+      </div>
+
+      <!-- USER -->
+
+      <div class="flex items-center gap-3">
+
+        <div class="text-right hidden md:block">
+
+          <h1 class="font-medium leading-none">
+            ADMIN
+          </h1>
+
+          <p class="text-xs text-slate-400 mt-1">
+            ผู้ดูแลระบบ
+          </p>
+
+        </div>
+
+        <img
+          src="https://i.pravatar.cc/100"
+          class="w-[44px]
+          h-[44px]
+          rounded-full
+          border-2 border-blue-500
+          object-cover"
+        >
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ========================= -->
+<!-- BODY -->
+<!-- ========================= -->
+
+<div class="flex min-h-[calc(100vh-70px)] relative">
+
+  <!-- BACKDROP -->
+
+  <div
+    id="sidebarBackdrop"
+    class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"
+  ></div>
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside
+    id="sidebar"
+    class="fixed lg:sticky
+    top-0 left-0
+    z-50 lg:z-10
+    w-[260px]
+    h-screen lg:h-[calc(100vh-70px)]
+    bg-slate-900
+    border-r border-slate-800
+    p-4
+    transform
+    -translate-x-full
+    lg:translate-x-0
+    transition-all
+    duration-300
+    overflow-y-auto
+    flex-shrink-0"
+  >
+
+    <!-- MOBILE TOP -->
+
+    <div
+    class="flex items-center justify-between
+    mb-6 lg:hidden"
+    >
+
+      <h1 class="text-xl font-bold">
+        MENU
+      </h1>
+
+      <button id="closeSidebar">
+
+        <i class='bx bx-x text-3xl'></i>
+
+      </button>
+
+    </div>
+
+    <!-- MENU -->
+
+    <div class="space-y-2">
+
+      <!-- Dashboard -->
+
+      <button
+        onclick="window.location.href='dashboard.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bxs-dashboard text-xl'></i>
+
+        <span>Dashboard</span>
+
+      </button>
+
+      <!-- ACCOUNT -->
+
+      <button
+        onclick="window.location.href='account.html'"
+        class="menu-active
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-wallet text-xl text-cyan-400'></i>
+
+        <span>จัดการบัญชี</span>
+
+      </button>
+
+      <!-- TRANSFER -->
+
+      <button
+        onclick="window.location.href='transfer.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-transfer-alt text-xl text-green-400'></i>
+
+        <span>โยกเงิน</span>
+
+      </button>
+
+      <!-- TRANSACTION -->
+
+      <button
+        onclick="window.location.href='transaction.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-history text-xl text-orange-400'></i>
+
+        <span>รายการทั้งหมด</span>
+
+      </button>
+
+      <!-- MEMBER -->
+
+      <button
+        onclick="window.location.href='member.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-user text-xl text-pink-400'></i>
+
+        <span>สมาชิก</span>
+
+      </button>
+
+      <!-- SETTING -->
+
+      <button
+        onclick="window.location.href='setting.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-cog text-xl text-yellow-400'></i>
+
+        <span>ตั้งค่า</span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+
+  <main class="flex-1 p-6">
+
+    <!-- TITLE -->
+
+    <div class="mb-8">
+
+      <h1 class="text-3xl font-bold">
+        จัดการบัญชีธนาคาร
+      </h1>
+
+      <p class="text-slate-400 mt-2">
+        เพิ่ม แก้ไข ลบ และจัดการข้อมูลบัญชีธนาคาร
+      </p>
+
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-[380px_1fr] gap-6">
+
+      <!-- FORM -->
+
+      <div class="form-box">
+
+        <input type="hidden" id="bank_id">
+
+        <!-- BANK -->
+
+        <div class="form-group">
+
+          <label for="bank_name">
+            ธนาคาร
+          </label>
+
+          <select
+            id="bank_name"
+            class="form-control"
+            required
+          >
+
+            <option value="">
+              -- เลือกธนาคาร --
+            </option>
+
+            <option value="SCB">
+              SCB
+            </option>
+
+            <option value="KBANK">
+              KBANK
+            </option>
+
+            <option value="BBL">
+              BBL
+            </option>
+
+            <option value="KTB">
+              KTB
+            </option>
+
+            <option value="TTB">
+              TTB
+            </option>
+
+            <option value="TRUE Wallet">
+              TRUE Wallet
+            </option>
+
+          </select>
+
+        </div>
+
+        <!-- ACCOUNT NUMBER -->
+
+        <div class="form-group">
+
+          <label for="bank_number">
+            เลขบัญชี
+          </label>
+
+          <input
+            type="text"
+            id="bank_number"
+            class="form-control"
+            placeholder="กรอกเลขบัญชี"
+            required
+          >
+
+        </div>
+
+        <!-- ACCOUNT NAME -->
+
+        <div class="form-group">
+
+          <label for="account_name">
+            ชื่อบัญชี
+          </label>
+
+          <input
+            type="text"
+            id="account_name"
+            class="form-control"
+            placeholder="กรอกชื่อบัญชี"
+            required
+          >
+
+        </div>
+
+        <!-- STATUS -->
+
+        <div class="form-group">
+
+          <label for="bank_status">
+            สถานะบัญชี
+          </label>
+
+          <select
+            id="bank_status"
+            class="form-control"
+            required
+          >
+
+            <option value="ACTIVE">
+              ACTIVE
+            </option>
+
+            <option value="INACTIVE">
+              INACTIVE
+            </option>
+
+          </select>
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <div class="flex gap-3">
+
+          <button
+            id="saveBtn"
+            class="h-[52px]
+            flex-1
+            rounded-xl
+            bg-blue-600
+            hover:bg-blue-700
+            disabled:opacity-50
+            disabled:cursor-not-allowed
+            transition
+            text-white
+            font-semibold
+            shadow-lg"
+            onclick="saveBank()"
+          >
+
+            <i class='bx bx-save mr-1'></i>
+
+            บันทึกข้อมูล
+
+          </button>
+
+          <button
+            id="resetBtn"
+            class="h-[52px]
+            w-[52px]
+            rounded-xl
+            bg-slate-700
+            hover:bg-slate-600
+            transition
+            text-white
+            flex items-center justify-center
+            shadow-lg"
+            onclick="resetForm()"
+          >
+
+            <i class='bx bx-reset text-xl'></i>
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- TABLE -->
+
+      <div class="card p-6 overflow-x-auto">
+
+        <table class="w-full text-sm">
+
+          <thead>
+
+            <tr class="border-b border-slate-700 text-slate-400">
+              <th class="text-left py-3">ธนาคาร</th>
+              <th class="text-left py-3">เลขบัญชี</th>
+              <th class="text-left py-3">ชื่อบัญชี</th>
+              <th class="text-left py-3">สถานะ</th>
+              <th class="text-left py-3">วันที่</th>
+              <th class="text-left py-3">จัดการ</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="bankTable">
+
+            <tr>
+              <td colspan="6" class="text-center py-8 text-slate-400">
+                กำลังโหลดข้อมูล...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<!-- ========================= -->
+<!-- SCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+// ========================= 
+// CONSTANTS
+// ========================= 
+
+const API_URL = "bank_accounts.php";
+
+// ========================= 
+// DOM ELEMENTS
+// ========================= 
+
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const backdrop = document.getElementById("sidebarBackdrop");
+const closeSidebar = document.getElementById("closeSidebar");
+const bankTable = document.getElementById("bankTable");
+const saveBtn = document.getElementById("saveBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+// ========================= 
+// SIDEBAR FUNCTIONS
+// ========================= 
+
+menuBtn.addEventListener("click", () => {
+  sidebar.classList.remove("-translate-x-full");
+  backdrop.classList.remove("hidden");
+});
+
+function closeMenu() {
+  sidebar.classList.add("-translate-x-full");
+  backdrop.classList.add("hidden");
+}
+
+closeSidebar.addEventListener("click", closeMenu);
+backdrop.addEventListener("click", closeMenu);
+
+// ========================= 
+// ALERT FUNCTION
+// ========================= 
+
+function showAlert(message, type = 'info') {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = `alert alert-${type}`;
+  alertDiv.textContent = message;
+  
+  document.body.appendChild(alertDiv);
+  
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 5000);
+}
+
+// ========================= 
+// FORMAT DATE
+// ========================= 
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleString("th-TH", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+// ========================= 
+// GET STATUS BADGE
+// ========================= 
+
+function getStatusBadge(status) {
+  return status === "ACTIVE" 
+    ? `<span class="status-active">✓ ACTIVE</span>`
+    : `<span class="status-inactive">✕ INACTIVE</span>`;
+}
+
+// ========================= 
+// LOAD BANKS
+// ========================= 
+
+async function loadBanks() {
+  try {
+    const response = await fetch(API_URL);
+
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    if (!result.success) {
+      throw new Error(result.message || "โหลดข้อมูลไม่สำเร็จ");
+    }
+
+    const data = result.data;
+
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid data format");
+    }
+
+    let html = "";
+
+    if (data.length === 0) {
+      html = '<tr><td colspan="6" class="text-center py-8 text-slate-400">ไม่มีข้อมูลบัญชี</td></tr>';
+    } else {
+      data.forEach(bank => {
+        const formattedDate = formatDate(bank.created_at);
+        html += `
+          <tr>
+            <td>${bank.bank_name}</td>
+            <td>${bank.bank_number}</td>
+            <td>${bank.account_name}</td>
+            <td>${getStatusBadge(bank.bank_status)}</td>
+            <td>${formattedDate}</td>
+            <td>
+              <div class="flex gap-2">
+                <button
+                  class="action-btn edit-btn"
+                  onclick='editBank(${JSON.stringify(bank)})'
+                  title="แก้ไข"
+                >
+                  <i class='bx bx-edit'></i>
+                </button>
+                <button
+                  class="action-btn delete-btn"
+                  onclick='deleteBank(${bank.bank_id})'
+                  title="ลบ"
+                >
+                  <i class='bx bx-trash'></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    bankTable.innerHTML = html;
+
+  } catch (error) {
+    console.error('Error loading banks:', error);
+    bankTable.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-red-400">เกิดข้อผิดพลาด: ${error.message}</td></tr>`;
+    showAlert('ไม่สามารถโหลดข้อมูลบัญชีได้', 'error');
+  }
+}
+
+// ========================= 
+// VALIDATE FORM
+// ========================= 
+
+function validateForm() {
+  const bank_name = document.getElementById("bank_name").value;
+  const bank_number = document.getElementById("bank_number").value;
+  const account_name = document.getElementById("account_name").value;
+
+  if (!bank_name) {
+    showAlert('กรุณาเลือกธนาคาร', 'error');
+    return false;
+  }
+
+  if (!bank_number || bank_number.trim() === '') {
+    showAlert('กรุณากรอกเลขบัญชี', 'error');
+    return false;
+  }
+
+  if (!account_name || account_name.trim() === '') {
+    showAlert('กรุณากรอกชื่อบัญชี', 'error');
+    return false;
+  }
+
+  return true;
+}
+
+// ========================= 
+// SAVE BANK
+// ========================= 
+
+async function saveBank() {
+  try {
+    if (!validateForm()) {
+      return;
+    }
+
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="bx bx-loader-circle bx-spin mr-1"></i>กำลังบันทึก...';
+
+    const bank_id = document.getElementById("bank_id").value;
+    const bank_name = document.getElementById("bank_name").value;
+    const bank_number = document.getElementById("bank_number").value;
+    const account_name = document.getElementById("account_name").value;
+    const bank_status = document.getElementById("bank_status").value;
+
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        bank_id,
+        bank_name,
+        bank_number,
+        account_name,
+        bank_status
+      })
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      showAlert(result.message || 'บันทึกข้อมูลล้มเหลว', 'error');
+      return;
+    }
+
+    showAlert(result.message || 'บันทึกข้อมูลสำเร็จ', 'success');
+    resetForm();
+    loadBanks();
+
+  } catch (error) {
+    console.error('Error saving bank:', error);
+    showAlert('เกิดข้อผิดพลาด: ' + error.message, 'error');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = '<i class="bx bx-save mr-1"></i>บันทึกข้อมูล';
+  }
+}
+
+// ========================= 
+// EDIT BANK
+// ========================= 
+
+function editBank(bank) {
+  document.getElementById("bank_id").value = bank.bank_id;
+  document.getElementById("bank_name").value = bank.bank_name;
+  document.getElementById("bank_number").value = bank.bank_number;
+  document.getElementById("account_name").value = bank.account_name;
+  document.getElementById("bank_status").value = bank.bank_status;
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+  showAlert('กรุณากรอกข้อมูลที่ต้องการแก้ไข', 'info');
+}
+
+// ========================= 
+// DELETE BANK
+// ========================= 
+
+async function deleteBank(id) {
+  try {
+    const confirmDelete = confirm("ต้องการลบข้อมูลนี้ใช่หรือไม่?");
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    const response = await fetch(API_URL, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        bank_id: id
+      })
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      showAlert(result.message || 'ลบข้อมูลล้มเหลว', 'error');
+      return;
+    }
+
+    showAlert(result.message || 'ลบข้อมูลสำเร็จ', 'success');
+    loadBanks();
+
+  } catch (error) {
+    console.error('Error deleting bank:', error);
+    showAlert('เกิดข้อผิดพลาด: ' + error.message, 'error');
+  }
+}
+
+// ========================= 
+// RESET FORM
+// ========================= 
+
+function resetForm() {
+  document.getElementById("bank_id").value = "";
+  document.getElementById("bank_name").value = "";
+  document.getElementById("bank_number").value = "";
+  document.getElementById("account_name").value = "";
+  document.getElementById("bank_status").value = "ACTIVE";
+}
+
+// ========================= 
+// INITIALIZE
+// ========================= 
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadBanks();
+});
+
+</script>
+
+</body>
+
+</html>

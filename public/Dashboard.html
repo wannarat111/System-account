@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>ระบบการโยกเงิน</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Boxicons -->
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    *{
+      font-family:'Prompt',sans-serif;
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html,body{
+      width:100%;
+      min-height:100%;
+    }
+
+    body{
+      background:#020617;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    .card{
+      background:#1e293b;
+      border:1px solid #334155;
+      border-radius:20px;
+    }
+
+    .menu-active{
+      background:linear-gradient(to right,#2563eb,#3b82f6);
+    }
+
+    .menu-item:hover{
+      background:#1e40af;
+    }
+
+    .shadow-ui{
+      box-shadow:0 0 20px rgba(0,0,0,.20);
+    }
+
+    .table-scroll::-webkit-scrollbar{
+      height:6px;
+    }
+
+    .table-scroll::-webkit-scrollbar-thumb{
+      background:#475569;
+      border-radius:20px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- HEADER -->
+<!-- ========================= -->
+
+<header
+class="w-full
+h-[70px]
+border-b border-slate-800
+bg-slate-900
+sticky top-0 z-30"
+>
+
+  <div
+  class="h-full
+  flex items-center justify-between
+  px-4 lg:px-6"
+  >
+
+    <!-- LEFT -->
+
+    <div class="flex items-center gap-4 min-w-0">
+
+      <!-- MOBILE MENU -->
+
+      <button
+        id="menuBtn"
+        class="lg:hidden
+        min-w-[42px]
+        w-[42px]
+        h-[42px]
+        rounded-xl
+        bg-blue-600
+        flex items-center justify-center
+        flex-shrink-0"
+      >
+
+        <i class='bx bx-menu text-2xl text-white'></i>
+
+      </button>
+
+      <!-- LOGO -->
+
+      <div class="flex items-center gap-3 min-w-0">
+
+        <div
+        class="min-w-[42px]
+        w-[42px]
+        h-[42px]
+        rounded-xl
+        bg-blue-600
+        flex items-center justify-center
+        flex-shrink-0"
+        >
+
+          <i class='bx bx-transfer text-2xl text-white'></i>
+
+        </div>
+
+        <div class="leading-tight truncate">
+
+          <h1 class="font-bold text-lg whitespace-nowrap">
+            ระบบการโยกเงิน
+          </h1>
+
+          <p class="text-xs text-slate-400 whitespace-nowrap">
+            Money Transfer System
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="flex items-center gap-3 lg:gap-4 flex-shrink-0">
+
+      <!-- SEARCH -->
+
+      <div class="hidden xl:flex relative">
+
+        <input
+          type="text"
+          placeholder="ค้นหารายการ..."
+          class="w-[300px]
+          h-[44px]
+          bg-slate-800
+          border border-slate-700
+          rounded-xl
+          pl-11 pr-4
+          text-sm
+          text-white
+          outline-none
+          focus:border-blue-500"
+        >
+
+        <i
+        class='bx bx-search
+        absolute
+        left-4
+        top-1/2
+        -translate-y-1/2
+        text-slate-400'
+        ></i>
+
+      </div>
+
+      <!-- USER -->
+
+      <div class="flex items-center gap-3">
+
+        <div class="text-right hidden md:block">
+
+          <h1 class="font-medium leading-none">
+            ADMIN
+          </h1>
+
+          <p class="text-xs text-slate-400 mt-1">
+            ผู้ดูแลระบบ
+          </p>
+
+        </div>
+
+        <img
+          src="https://i.pravatar.cc/100"
+          class="w-[44px]
+          h-[44px]
+          rounded-full
+          border-2 border-blue-500
+          object-cover"
+        >
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ========================= -->
+<!-- BODY -->
+<!-- ========================= -->
+
+<div class="flex min-h-[calc(100vh-70px)] relative">
+
+  <!-- BACKDROP -->
+
+  <div
+    id="sidebarBackdrop"
+    class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"
+  ></div>
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside
+    id="sidebar"
+    class="fixed lg:sticky
+    top-0 left-0
+    z-50 lg:z-10
+    w-[260px]
+    h-screen lg:h-[calc(100vh-70px)]
+    bg-slate-900
+    border-r border-slate-800
+    p-4
+    transform
+    -translate-x-full
+    lg:translate-x-0
+    transition-all
+    duration-300
+    overflow-y-auto
+    flex-shrink-0"
+  >
+
+    <!-- MOBILE TOP -->
+
+    <div
+    class="flex items-center justify-between
+    mb-6 lg:hidden"
+    >
+
+      <h1 class="text-xl font-bold">
+        MENU
+      </h1>
+
+      <button id="closeSidebar">
+
+        <i class='bx bx-x text-3xl'></i>
+
+      </button>
+
+    </div>
+
+    <!-- MENU -->
+
+    <div class="space-y-2">
+
+      <!-- Dashboard -->
+
+      <button
+        onclick="window.location.href='dashboard.html'"
+        class="menu-active
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bxs-dashboard text-xl'></i>
+
+        <span>Dashboard</span>
+
+      </button>
+
+      <!-- ACCOUNT -->
+
+      <button
+        onclick="window.location.href='account.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-wallet text-xl text-cyan-400'></i>
+
+        <span>จัดการบัญชี</span>
+
+      </button>
+
+      <!-- TRANSFER -->
+
+      <button
+        onclick="window.location.href='transfer.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-transfer-alt text-xl text-green-400'></i>
+
+        <span>โยกเงิน</span>
+
+      </button>
+
+      <!-- TRANSACTION -->
+
+      <button
+        onclick="window.location.href='transaction.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-history text-xl text-orange-400'></i>
+
+        <span>รายการทั้งหมด</span>
+
+      </button>
+
+      <!-- MEMBER -->
+
+      <button
+        onclick="window.location.href='member.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-user text-xl text-pink-400'></i>
+
+        <span>สมาชิก</span>
+
+      </button>
+
+      <!-- SETTING -->
+
+      <button
+        onclick="window.location.href='setting.html'"
+        class="menu-item
+        w-full
+        h-[52px]
+        flex items-center
+        gap-3
+        px-4
+        rounded-xl
+        transition"
+      >
+
+        <i class='bx bx-cog text-xl text-yellow-400'></i>
+
+        <span>ตั้งค่า</span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+  <main class="flex-1 p-4 lg:p-6 space-y-6 bg-slate-950 overflow-x-hidden">
+
+  <!-- TOP -->
+  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
+    <div>
+      <h1 class="text-3xl font-bold">Dashboard</h1>
+      <p class="text-slate-400 mt-1">ภาพรวมระบบการโยกเงินทั้งหมด</p>
+    </div>
+
+    <button class="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-xl font-medium transition">
+      + เพิ่มรายการโยกเงิน
+    </button>
+
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+
+    <div class="card shadow-ui p-5">
+      <p class="text-slate-400 text-sm">ยอดโยกวันนี้</p>
+      <h1 id="todayTotal" class="text-3xl font-bold mt-3 text-blue-400">฿0</h1>
+    </div>
+
+    <div class="card shadow-ui p-5">
+      <p class="text-slate-400 text-sm">ยอดคงเหลือรวม</p>
+      <h1 id="balanceTotal" class="text-3xl font-bold mt-3 text-green-400">฿0</h1>
+    </div>
+
+    <div class="card shadow-ui p-5">
+      <p class="text-slate-400 text-sm">จำนวนบัญชี</p>
+      <h1 id="accountCount" class="text-3xl font-bold mt-3 text-orange-400">0</h1>
+    </div>
+
+    <div class="card shadow-ui p-5">
+      <p class="text-slate-400 text-sm">รายการวันนี้</p>
+      <h1 id="todayCount" class="text-3xl font-bold mt-3 text-pink-400">0</h1>
+    </div>
+
+  </div>
+
+  <!-- CONTENT -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+    <!-- TABLE -->
+    <div class="xl:col-span-2">
+      <div class="card p-5 shadow-ui">
+
+        <h1 class="text-xl font-semibold mb-5">รายการโยกล่าสุด</h1>
+
+        <div class="overflow-auto table-scroll">
+
+          <table class="w-full min-w-[700px]">
+
+            <thead>
+              <tr class="border-b border-slate-700 text-slate-400">
+                <th class="text-left py-4">เวลา</th>
+                <th class="text-left">จากบัญชี</th>
+                <th class="text-left">ไปบัญชี</th>
+                <th class="text-left">ประเภท</th>
+                <th class="text-left">ยอด</th>
+                <th class="text-left">สถานะ</th>
+              </tr>
+            </thead>
+
+            <tbody id="logTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- QUICK MENU -->
+    <div class="space-y-6">
+
+      <div class="card p-5 shadow-ui">
+
+        <h1 class="text-xl font-semibold mb-5">เมนูลัด</h1>
+
+        <div class="grid grid-cols-2 gap-4">
+
+          <button onclick="location.href='transfer.html'" class="bg-blue-600 hover:bg-blue-700 rounded-2xl p-5">
+            <i class='bx bx-transfer text-3xl mb-2'></i>
+            <p>โยกเงิน</p>
+          </button>
+
+          <button onclick="location.href='account.html'" class="bg-green-600 hover:bg-green-700 rounded-2xl p-5">
+            <i class='bx bx-wallet text-3xl mb-2'></i>
+            <p>เพิ่มบัญชี</p>
+          </button>
+
+          <button onclick="location.href='transaction.html'" class="bg-orange-600 hover:bg-orange-700 rounded-2xl p-5">
+            <i class='bx bx-history text-3xl mb-2'></i>
+            <p>ประวัติ</p>
+          </button>
+
+          <button onclick="location.href='member.html'" class="bg-pink-600 hover:bg-pink-700 rounded-2xl p-5">
+            <i class='bx bx-user-plus text-3xl mb-2'></i>
+            <p>สมาชิก</p>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+<!-- ========================= -->
+<!-- SCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const sidebar =
+document.getElementById("sidebar");
+
+const backdrop =
+document.getElementById("sidebarBackdrop");
+
+const closeSidebar =
+document.getElementById("closeSidebar");
+
+/* OPEN */
+
+menuBtn.addEventListener("click",()=>{
+
+    sidebar.classList.remove("-translate-x-full");
+
+    backdrop.classList.remove("hidden");
+
+});
+
+/* CLOSE */
+
+function closeMenu(){
+
+    sidebar.classList.add("-translate-x-full");
+
+    backdrop.classList.add("hidden");
+
+}
+
+closeSidebar.addEventListener("click",closeMenu);
+
+backdrop.addEventListener("click",closeMenu);
+async function loadDashboard() {
+
+  try {
+
+    const res = await fetch('./dashboard.php');
+const json = await res.json();
+
+const data = json.data; // 🔥 ต้องใช้แบบนี้
+
+data.forEach(row => {
+  console.log(row.from_account
+);
+});
+
+    if (!Array.isArray(data)) {
+      console.error('API ไม่ได้ส่ง array:', json);
+      return;
+    }
+
+    const tbody = document.getElementById('logTable');
+
+    let todayTotal = 0;
+    let todayCount = 0;
+    let balance = 0;
+    let accountSet = new Set();
+
+    const today = new Date().toDateString();
+
+    tbody.innerHTML = '';
+
+    data.forEach(row => {
+
+      const time = new Date(row.created_at).toLocaleTimeString('th-TH', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      // ===== SUMMARY =====
+      const amount = Number(row.amount || 0);
+
+      balance += amount;
+      accountSet.add(row.from_account);
+      accountSet.add(row.to_account);
+
+      if (new Date(row.created_at).toDateString() === today) {
+        todayTotal += amount;
+        todayCount++;
+      }
+
+      // ===== TYPE =====
+      let typeText = '';
+      let typeColor = '';
+
+      if (row.transfer_type === 'โยกเข้าระบบ') {
+        typeText = 'โยกเข้าระบบ';
+        typeColor = 'text-blue-400';
+      } 
+      else if (row.transfer_type === 'โยกระหว่างบัญชี') {
+        typeText = 'โยกระหว่างบัญชี';
+        typeColor = 'text-blue-400';
+      } 
+      else if (row.transfer_type === 'โยกออกระบบ') {
+        typeText = 'โยกออกระบบ';
+        typeColor = 'text-red-400';
+      } 
+      else {
+        typeText = 'ไม่ระบุ';
+        typeColor = 'text-gray-400';
+      }
+
+      // ===== STATUS =====
+      let statusColor = 'text-gray-400';
+
+      if (row.transfer_status === 'สำเร็จ') statusColor = 'text-green-400';
+      if (row.transfer_status === 'รอ') statusColor = 'text-yellow-400';
+      if (row.transfer_status === 'ยกเลิก') statusColor = 'text-red-400';
+
+       // ===== ROW =====
+      tbody.innerHTML += `
+        <tr class="border-b border-slate-800">
+
+          <td class="py-4">${time}</td>
+
+        <td>${row.from_account ?? '-'}</td>
+        <td>${row.to_account ?? '-'}</td>
+
+          <td class="${typeColor} font-medium">
+            ${typeText}
+          </td>
+
+          <td class="text-blue-400 font-semibold">
+            ฿${amount.toLocaleString()}
+          </td>
+
+          <td>
+            <span class="${statusColor}">
+              ${row.transfer_status || '-'}
+            </span>
+          </td>
+
+        </tr>
+      `;
+    });
+
+    // ===== UPDATE SUMMARY =====
+    document.getElementById('todayTotal').innerText =
+      '฿' + todayTotal.toLocaleString();
+
+    document.getElementById('todayCount').innerText =
+      todayCount;
+
+    document.getElementById('balanceTotal').innerText =
+      '฿' + balance.toLocaleString();
+
+    document.getElementById('accountCount').innerText =
+      accountSet.size;
+
+  } 
+  catch (err) {
+    console.error('โหลด Dashboard ล้มเหลว:', err);
+  }
+}
+
+// run
+document.addEventListener('DOMContentLoaded', loadDashboard);
+
+
+</script>
+
+</body>
+</html>
